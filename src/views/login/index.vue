@@ -63,7 +63,8 @@
 </template>
 
 <script>
-import { validEmail } from '@/utils/validate'
+import { validEmail, validPwd } from '@/utils/validate'
+import { loginAPI } from '@/api/index'
 
 export default {
   name: 'Login',
@@ -75,16 +76,22 @@ export default {
         callback()
       }
     }
+    const validdatePwd = (rule, value, callback) => {
+      if (!validPwd(value)) {
+        callback(new Error('请输入由字母、数字组成的8-20位密码！'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 为了开发方便，填写上个默认值
       loginForm: {
-        email: '12345678900@qq.com',
-        password: '88888888'
+        email: '123456789@qq.com',
+        password: 'ren666666'
       },
       loginRules: {
         email: [{ required: true, trigger: 'blur', validator: validdateEmail }],
-        password: [
-          { min: 8, max: 20, required: true, trigger: 'blur', message: '密码长度在8-20位之间' }
-        ]
+        password: [{ required: true, trigger: 'blur', validator: validdatePwd }]
       },
       loading: false,
       passwordType: 'password',
@@ -112,8 +119,11 @@ export default {
     },
     handleLogin() {
       // 登录请求
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
+          // console.log(this.loginForm)
+          const res = await loginAPI(this.loginForm)
+          console.log(res)
         } else {
         }
       })
