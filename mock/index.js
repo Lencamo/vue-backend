@@ -4,10 +4,7 @@ const { param2Obj } = require('./utils')
 const user = require('./user')
 const table = require('./table')
 
-const mocks = [
-  ...user,
-  ...table
-]
+const mocks = [...user, ...table]
 
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,
@@ -16,7 +13,7 @@ function mockXHR() {
   // mock patch
   // https://github.com/nuysoft/Mock/issues/300
   Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send
-  Mock.XHR.prototype.send = function() {
+  Mock.XHR.prototype.send = function () {
     if (this.custom.xhr) {
       this.custom.xhr.withCredentials = this.withCredentials || false
 
@@ -28,7 +25,7 @@ function mockXHR() {
   }
 
   function XHR2ExpressReqWrap(respond) {
-    return function(options) {
+    return function (options) {
       let result = null
       if (respond instanceof Function) {
         const { body, type, url } = options
@@ -54,4 +51,3 @@ module.exports = {
   mocks,
   mockXHR
 }
-

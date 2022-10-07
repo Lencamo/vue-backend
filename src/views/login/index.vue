@@ -77,13 +77,13 @@ export default {
     }
     return {
       loginForm: {
-        email: 'admin',
-        password: '111111'
+        email: '12345678900@qq.com',
+        password: '88888888'
       },
       loginRules: {
         email: [{ required: true, trigger: 'blur', validator: validdateEmail }],
         password: [
-          { min: 6, max: 15, required: true, trigger: 'blur', message: '密码长度在6-15位之间' }
+          { min: 8, max: 20, required: true, trigger: 'blur', message: '密码长度在8-20位之间' }
         ]
       },
       loading: false,
@@ -111,21 +111,10 @@ export default {
       })
     },
     handleLogin() {
+      // 登录请求
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true
-          this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
         } else {
-          console.log('error submit!!')
-          return false
         }
       })
     }
@@ -253,5 +242,9 @@ $dark_gray: #516280;
 .user-item,
 .pwd-item {
   margin-bottom: 35px;
+}
+
+::v-deep input {
+  color: #204657 !important;
 }
 </style>
