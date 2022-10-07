@@ -1,10 +1,10 @@
-import { login, logout, getInfo } from '@/api/user'
+import { loginAPI } from '@/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import { Message } from 'element-ui'
 
 const getDefaultState = () => {
   return {
-    token: getToken(), //vuex存储的是cookie中的token
+    token: getToken(), // vuex存储的是cookie中的token
     name: '',
     avatar: ''
   }
@@ -37,69 +37,13 @@ const mutations = {
 }
 
 const actions = {
-  // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password })
-        .then((response) => {
-          const { data } = response
-          commit('SET_TOKEN', data.token)
-          setToken(data.token)
-          resolve()
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-
-  // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token)
-        .then((response) => {
-          const { data } = response
-
-          if (!data) {
-            return reject('Verification failed, please Login again.')
-          }
-
-          const { name, avatar } = data
-
-          commit('SET_NAME', name)
-          commit('SET_AVATAR', avatar)
-          resolve(data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-
-  // user logout
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token)
-        .then(() => {
-          removeToken() // must remove  token  first
-          resetRouter()
-          commit('RESET_STATE')
-          resolve()
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise((resolve) => {
-      removeToken() // must remove  token  first
-      commit('RESET_STATE')
-      resolve()
-    })
+  // 登录接口封装
+  async loginActions({ commit }, data) {
+    const { data: res } = await loginAPI(data)
+    // 存储token
+    commit('SET_TOKEN', res.data.token)
+    // 成功提示
+    Message.success(res.msg)
   }
 }
 

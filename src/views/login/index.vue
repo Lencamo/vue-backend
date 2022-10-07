@@ -45,7 +45,10 @@
             auto-complete="on"
             @keyup.enter.native="handleLogin"
           />
-          <span class="show-pwd" @click="showPwd">
+          <span
+            class="show-pwd"
+            @click="showPwd"
+          >
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
@@ -56,16 +59,13 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      >登录</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 import { validEmail, validPwd } from '@/utils/validate'
-import { loginAPI } from '@/api/index'
-import { Message } from 'element-ui'
 
 export default {
   name: 'Login',
@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function (route) {
+      handler: function(route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -120,22 +120,16 @@ export default {
     },
     handleLogin() {
       // 登录请求
-      this.$refs.loginForm.validate(async (valid) => {
+      this.$refs.loginForm.validate(async(valid) => {
         if (valid) {
           // console.log(this.loginForm)
           try {
-            const { data: res } = await loginAPI(this.loginForm)
-            // console.log(res)
-            // 存储token
-            // console.log(res.data.token)
-            this.$store.commit('user/SET_TOKEN', res.data.token)
-            // 成功提示
-            Message.success(res.msg)
+            // 使用Action封装完成请求👀
+            this.$store.dispatch('user/loginActions')
           } catch (err) {
             // 异常提示在axios统一处理
             console.dir(err)
           }
-        } else {
         }
       })
     }

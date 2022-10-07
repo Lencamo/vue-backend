@@ -39,7 +39,7 @@ service.interceptors.response.use(
     } else {
       // 弹窗提示
       Message.error(data.message)
-      return Promise.reject(error)
+      return Promise.reject(data.message)
     }
     // return response
   },
