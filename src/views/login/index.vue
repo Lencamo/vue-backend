@@ -65,6 +65,7 @@
 <script>
 import { validEmail, validPwd } from '@/utils/validate'
 import { loginAPI } from '@/api/index'
+import { Message } from 'element-ui'
 
 export default {
   name: 'Login',
@@ -122,8 +123,18 @@ export default {
       this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
           // console.log(this.loginForm)
-          const res = await loginAPI(this.loginForm)
-          console.log(res)
+          try {
+            const { data: res } = await loginAPI(this.loginForm)
+            // console.log(res)
+            // 存储token
+            // console.log(res.data.token)
+            this.$store.commit('user/SET_TOKEN', res.data.token)
+            // 成功提示
+            Message.success(res.msg)
+          } catch (err) {
+            // 异常提示在axios统一处理
+            console.dir(err)
+          }
         } else {
         }
       })
