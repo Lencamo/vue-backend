@@ -13,15 +13,15 @@
       </div>
 
       <div class="user-item">
-        <el-form-item prop="username">
+        <el-form-item prop="email">
           <span class="svg-container">
             <svg-icon icon-class="user" />
           </span>
           <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
+            ref="email"
+            v-model="loginForm.email"
+            placeholder="请输入邮箱地址"
+            name="email"
             type="text"
             tabindex="1"
             auto-complete="on"
@@ -39,7 +39,7 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
+            placeholder="请输入密码"
             name="password"
             tabindex="2"
             auto-complete="on"
@@ -56,40 +56,35 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >Login</el-button
+        >登录</el-button
       >
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validEmail } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+    const validdateEmail = (rule, value, callback) => {
+      if (!validEmail(value)) {
+        callback(new Error('请输入合法的邮箱地址！'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
+        email: 'admin',
         password: '111111'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        email: [{ required: true, trigger: 'blur', validator: validdateEmail }],
+        password: [
+          { min: 6, max: 15, required: true, trigger: 'blur', message: '密码长度在6-15位之间' }
+        ]
       },
       loading: false,
       passwordType: 'password',
