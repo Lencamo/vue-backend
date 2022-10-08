@@ -23,6 +23,10 @@ router.beforeEach((to, from, next) => {
       next('/')
     } else {
       next()
+      // (初始化页面时发起的请求)
+      if (!store.getters.name) {
+        store.dispatch('user/getUserInfoAllActions')
+      }
     }
   } else {
     // 没token进登录页

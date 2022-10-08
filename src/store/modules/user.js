@@ -1,4 +1,4 @@
-import { loginAPI } from '@/api'
+import { loginAPI, getUserInfoAllAPI } from '@/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
 
@@ -7,8 +7,10 @@ import router from '../../router'
 const getDefaultState = () => {
   return {
     token: getToken(), // vuex存储的是cookie中的token
+    userInfoAll: {}, // 存储根据token获取的用户信息
     name: '',
     avatar: ''
+
   }
 }
 
@@ -18,16 +20,23 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },
-  // 1、设置token
+  // 1、token处理
   SET_TOKEN: (state, token) => {
     state.token = token
     // 持久化存储token
     setToken(token)
   },
-  // 2、删除token
   REMOVE_TOKEN: (state, token) => {
     state.token = ''
     removeToken()
+  },
+
+  // 2、学号处理
+  SET_UserInfoAll: (state, infoObj) => {
+    state.userInfoAll = infoObj
+  },
+  REMOVE_UserInfoAll: (state) => {
+    state.userInfoAll = {}
   },
 
   SET_NAME: (state, name) => {
@@ -48,6 +57,15 @@ const actions = {
     Message.success(res.msg)
     // 页面跳转到后台主页
     router.replace('/')
+  },
+
+  // 根据token获取用户信息接口
+  async getUserInfoAllActions({ commit }) {
+    const token = getToken()
+    const { data: res } = await getUserInfoAllAPI(token)
+    console.log(res)
+    // 存储信息
+    commit('SET_UserInfoAll', res.data)
   }
 }
 

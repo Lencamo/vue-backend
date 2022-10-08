@@ -12,3 +12,17 @@ export function loginAPI(data) {
     data
   })
 }
+
+/**
+ * 根据token获取用户信息接口
+ * @param {*} tokenValue token值
+ * @returns
+ */
+export function getUserInfoAllAPI(tokenValue) {
+  const url = '/user/info/all/token/' + tokenValue
+  return request({
+    url,
+    method: 'get'
+  })
+}
+

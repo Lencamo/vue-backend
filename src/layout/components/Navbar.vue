@@ -73,11 +73,11 @@ export default {
   data() {
     return {
       // 暂时用随机的用户名
-      name: '20631740233'
+      // name: '20631740233'
     }
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar']),
+    ...mapGetters(['sidebar', 'avatar', 'name']),
 
     // 暂时用默认头像!!!
     avatar() {

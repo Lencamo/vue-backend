@@ -33,13 +33,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     // console.log(response.data)
-    const { code, data } = response.data
+    const { code, msg } = response.data
     if (code === 200) {
       return response
     } else {
-      // 弹窗提示
-      Message.error(data.message)
-      return Promise.reject(data.message)
+      // 报错信息——弹窗提示（bug解决：后台传参有时没有data.message字段）
+      Message.error(msg)
+      return Promise.reject(msg)
     }
     // return response
   },
