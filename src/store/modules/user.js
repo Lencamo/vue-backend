@@ -2,6 +2,8 @@ import { loginAPI } from '@/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
 
+import router from '../../router'
+
 const getDefaultState = () => {
   return {
     token: getToken(), // vuex存储的是cookie中的token
@@ -44,6 +46,8 @@ const actions = {
     commit('SET_TOKEN', res.data.token)
     // 成功提示
     Message.success(res.msg)
+    // 页面跳转到后台主页
+    router.replace('/')
   }
 }
 

@@ -136,6 +136,9 @@ export default {
             // 异常提示在axios统一处理
             console.dir(err)
           }
+          this.loading = false
+        } else {
+          return false
         }
       })
     }
