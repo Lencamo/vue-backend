@@ -13,7 +13,10 @@
       </div>
 
       <div class="user-item">
-        <el-form-item prop="email">
+        <el-form-item
+          id="fillInput"
+          prop="email"
+        >
           <span class="svg-container">
             <svg-icon icon-class="user" />
           </span>
@@ -30,7 +33,10 @@
       </div>
 
       <div class="pwd-item">
-        <el-form-item prop="password">
+        <el-form-item
+          id="fillInput"
+          prop="password"
+        >
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
@@ -259,7 +265,15 @@ $dark_gray: #516280;
   margin-bottom: 35px;
 }
 
-::v-deep input {
+// 注意权重问题
+::v-deep #fillInput input {
   color: #204657 !important;
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #7a8a93 inset !important;
+    box-shadow: 0 0 0px 1000px #7a8a93 inset !important;
+    -webkit-text-fill-color: #204657 !important;
+    font-size: 14px;
+  }
 }
+
 </style>
