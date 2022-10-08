@@ -20,6 +20,7 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },
+
   // 1、token处理
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -63,9 +64,15 @@ const actions = {
   async getUserInfoAllActions({ commit }) {
     const token = getToken()
     const { data: res } = await getUserInfoAllAPI(token)
-    console.log(res)
+    // console.log(res)
     // 存储信息
     commit('SET_UserInfoAll', res.data)
+  },
+
+  // 退出登录
+  async logOutActions({ commit }) {
+    commit('REMOVE_TOKEN')
+    commit('RESET_STATE')
   }
 }
 

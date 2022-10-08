@@ -89,8 +89,24 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      // vue-element-admin 模板原代码
+      // await this.$store.dispatch('user/logout')
+      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$confirm('你确定要离开吗?, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async() => {
+        await this.$store.dispatch('user/logOutActions')
+
+        // 跳转到登录页面
+        this.$router.replace('/login')
+        // 退出成功提示
+        this.$message.success('退出成功!')
+      }).catch(() => {
+        // 取消退出提示
+        this.$message.info('已取消退出')
+      })
     }
   }
 }
