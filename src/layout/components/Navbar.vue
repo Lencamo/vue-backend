@@ -1,29 +1,57 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
-    <breadcrumb class="breadcrumb-container" />
+    <!-- 面包屑 -->
+    <!-- <breadcrumb class="breadcrumb-container" /> -->
 
+    <!-- 头部名称 -->
+    <div class="app-breadcrumb">
+      “教、学、练”三位一体教学平台
+      <span class="breadBtn">测试版</span>
+    </div>
+
+    <!-- 右侧下拉菜单 -->
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown
+        class="avatar-container"
+        trigger="click"
+      >
+        <!-- 1、点击区域 -->
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img
+            :src="avatar"
+            class="user-avatar"
+          >
+          <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <!-- 2、下拉区域 -->
+        <el-dropdown-menu
+          slot="dropdown"
+          class="user-dropdown"
+        >
+          <!-- 首页 -->
           <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
+            <el-dropdown-item> 首页 </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
+          <!-- 前台 -->
+          <a
+            target="_blank"
+            href="http://10.22.130.17/#/"
+          >
+            <el-dropdown-item>三体平台</el-dropdown-item>
           </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+          <!-- 退出登陆 -->
+          <el-dropdown-item
+            divided
+            @click.native="logout"
+          >
+            <span style="display: block">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -33,19 +61,28 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
+// import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import authorPic from '@/assets/common/authorPic.png'
 
 export default {
   components: {
-    Breadcrumb,
+    // Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      // 暂时用随机的用户名
+      name: '20631740233'
+    }
+  },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      'avatar'
-    ])
+    ...mapGetters(['sidebar', 'avatar']),
+
+    // 暂时用默认头像!!!
+    avatar() {
+      return authorPic
+    }
   },
   methods: {
     toggleSideBar() {
@@ -64,19 +101,43 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  // background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+
+  // 头部区域背景颜色
+  background: #889aa4;
+
+  // 头部名称样式
+  .app-breadcrumb {
+    display: inline-block;
+    font-size: 18px;
+    line-height: 50px;
+    margin-left: 10px;
+    color: #23272e;
+    cursor: text;
+
+    .breadBtn {
+      background: #ecd8b5;
+      font-size: 14px;
+      padding: 0 10px;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 10px;
+      margin-left: 15px;
+    }
+  }
 
   .hamburger-container {
     line-height: 46px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -103,10 +164,10 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }
@@ -114,23 +175,26 @@ export default {
     .avatar-container {
       margin-right: 30px;
 
+      // 顶部右侧区域样式调整
       .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
+        font-size: 16px;
 
         .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
+          width: 35px;
+          height: 35px;
           border-radius: 10px;
+
+          vertical-align: middle;
+        }
+
+        .name {
+          cursor: pointer;
+          color: #fff;
+          margin: 0px 15px;
         }
 
         .el-icon-caret-bottom {
           cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
         }
       }
     }
