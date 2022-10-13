@@ -16,7 +16,8 @@ service.interceptors.request.use(
     // 请求头携带token
     const token = store.getters.token
     if (token) {
-      config.headers['X-token'] = `Bearer ${token}`
+      // config.headers['X-token'] = `Bearer ${token}`
+      config.headers['X-token'] = `${token}`
     }
 
     // 应开发规范要求

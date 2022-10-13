@@ -13,10 +13,7 @@
       </div>
 
       <div class="user-item">
-        <el-form-item
-          id="fillInput"
-          prop="email"
-        >
+        <el-form-item id="fillInput" prop="email">
           <span class="svg-container">
             <svg-icon icon-class="user" />
           </span>
@@ -33,10 +30,7 @@
       </div>
 
       <div class="pwd-item">
-        <el-form-item
-          id="fillInput"
-          prop="password"
-        >
+        <el-form-item id="fillInput" prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
@@ -51,10 +45,7 @@
             auto-complete="on"
             @keyup.enter.native="handleLogin"
           />
-          <span
-            class="show-pwd"
-            @click="showPwd"
-          >
+          <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
@@ -65,7 +56,8 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-      >登录</el-button>
+        >登录</el-button
+      >
     </el-form>
   </div>
 </template>
@@ -107,7 +99,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -126,12 +118,12 @@ export default {
     },
     handleLogin() {
       // 登录请求
-      this.$refs.loginForm.validate(async(valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (valid) {
           // console.log(this.loginForm)
           try {
             // 使用Action封装完成请求👀
-            this.$store.dispatch('user/loginActions')
+            this.$store.dispatch('user/loginActions', this.loginForm)
           } catch (err) {
             // 异常提示在axios统一处理
             console.dir(err)
@@ -278,5 +270,4 @@ $dark_gray: #516280;
     font-size: 14px;
   }
 }
-
 </style>
