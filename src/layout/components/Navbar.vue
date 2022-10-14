@@ -17,40 +17,25 @@
 
     <!-- 右侧下拉菜单 -->
     <div class="right-menu">
-      <el-dropdown
-        class="avatar-container"
-        trigger="click"
-      >
+      <el-dropdown class="avatar-container" trigger="click">
         <!-- 1、点击区域 -->
         <div class="avatar-wrapper">
-          <img
-            :src="avatar"
-            class="user-avatar"
-          >
+          <img :src="avatar" class="user-avatar" />
           <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <!-- 2、下拉区域 -->
-        <el-dropdown-menu
-          slot="dropdown"
-          class="user-dropdown"
-        >
+        <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <!-- 首页 -->
           <router-link to="/">
             <el-dropdown-item> 首页 </el-dropdown-item>
           </router-link>
           <!-- 前台 -->
-          <a
-            target="_blank"
-            href="http://10.22.130.17/#/"
-          >
+          <a target="_blank" href="http://10.22.130.17/#/">
             <el-dropdown-item>三体平台</el-dropdown-item>
           </a>
           <!-- 退出登陆 -->
-          <el-dropdown-item
-            divided
-            @click.native="logout"
-          >
+          <el-dropdown-item divided @click.native="logout">
             <span style="display: block">退出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -96,17 +81,21 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(async() => {
-        await this.$store.dispatch('user/logOutActions')
-
-        // 跳转到登录页面
-        this.$router.replace('/login')
-        // 退出成功提示
-        this.$message.success('退出成功!')
-      }).catch(() => {
-        // 取消退出提示
-        this.$message.info('已取消退出')
       })
+        .then(async () => {
+          await this.$store.dispatch('user/logOutActions')
+
+          // 跳转到登录页面（升级：未遂地址处理 --- 退出时）
+          // this.$router.replace('/login')
+          this.$router.replace(`/login?redirect=${encodeURIComponent(this.$route.fullPath)}`)
+
+          // 退出成功提示
+          this.$message.success('退出成功!')
+        })
+        .catch(() => {
+          // 取消退出提示
+          this.$message.info('已取消退出')
+        })
     }
   }
 }

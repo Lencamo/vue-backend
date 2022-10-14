@@ -10,7 +10,6 @@ const getDefaultState = () => {
     userInfoAll: {}, // 存储根据token获取的用户信息
     name: '',
     avatar: ''
-
   }
 }
 
@@ -56,8 +55,6 @@ const actions = {
     commit('SET_TOKEN', res.data.token)
     // 成功提示
     Message.success(res.msg)
-    // 页面跳转到后台主页
-    router.replace('/')
   },
 
   // 根据token获取用户信息接口

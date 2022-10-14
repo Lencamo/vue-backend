@@ -94,10 +94,11 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined // 初始值设置
     }
   },
   watch: {
+    // 监听$route中的query地址
     $route: {
       handler: function (route) {
         this.redirect = route.query && route.query.redirect
@@ -123,7 +124,11 @@ export default {
           // console.log(this.loginForm)
           try {
             // 使用Action封装完成请求👀
-            this.$store.dispatch('user/loginActions', this.loginForm)
+            await this.$store.dispatch('user/loginActions', this.loginForm)
+
+            // 页面跳转到后台主页（升级：未遂地址处理 --- 登录时）
+            // router.replace('/')
+            this.$router.replace(this.redirect || '/')
           } catch (err) {
             // 异常提示在axios统一处理
             console.dir(err)

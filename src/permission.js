@@ -33,7 +33,10 @@ router.beforeEach((to, from, next) => {
     if (whiteList.includes(to.path)) {
       next()
     } else {
-      next('/login')
+      // 跳转到登录页面（升级：未遂地址处理 --- token过期时）
+      // next('/login')
+      next(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
+
       NProgress.done()
     }
   }
