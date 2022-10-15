@@ -3,12 +3,14 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 
 import store from './store'
+import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 // 白名单
 const whiteList = ['/login', '/404'] // no redirect whitelist
 
+// 1、前置路由守卫
 router.beforeEach((to, from, next) => {
   // 显示进度条
   NProgress.start()
@@ -42,7 +44,11 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(() => {
+// 2、后置路由守卫
+router.afterEach((to, from) => {
+  // 动态展示浏览器头部标题
+  // console.log(to.meta.title)
+  document.title = getPageTitle(to.meta.title)
   // 隐藏进度条
   NProgress.done()
 })
