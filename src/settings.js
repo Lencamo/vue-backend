@@ -3,6 +3,12 @@ module.exports = {
 
   /**
    * @type {boolean} true | false
+   * @description 是否启用 TagsView
+   */
+  tagsView: true,
+
+  /**
+   * @type {boolean} true | false
    * @description Whether fix the header
    */
   fixedHeader: false,

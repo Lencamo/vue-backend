@@ -1,11 +1,12 @@
 import defaultSettings from '@/settings'
 
-const { showSettings, fixedHeader, sidebarLogo } = defaultSettings
+const { showSettings, fixedHeader, sidebarLogo, tagsView } = defaultSettings
 
 const state = {
   showSettings: showSettings,
   fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  sidebarLogo: sidebarLogo,
+  tagsView: tagsView // 将tagsView设置为可自定义启用
 }
 
 const mutations = {
@@ -29,4 +30,3 @@ export default {
   mutations,
   actions
 }
-
