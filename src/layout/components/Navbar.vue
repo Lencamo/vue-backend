@@ -15,8 +15,13 @@
       <span class="breadBtn">测试版</span>
     </div>
 
-    <!-- 右侧下拉菜单 -->
     <div class="right-menu">
+      <!-- 右侧特殊功能 -->
+      <template v-if="device !== 'mobile'">
+        <!-- 1、全局放大功能 -->
+        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+      </template>
+      <!-- 右侧下拉菜单 -->
       <el-dropdown class="avatar-container" trigger="click">
         <!-- 1、点击区域 -->
         <div class="avatar-wrapper">
@@ -48,12 +53,15 @@
 import { mapGetters } from 'vuex'
 // import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import Screenfull from '@/components/Screenfull'
+
 import authorPic from '@/assets/common/authorPic.png'
 
 export default {
   components: {
     // Breadcrumb,
-    Hamburger
+    Hamburger,
+    Screenfull // 引入放大功能组件
   },
   data() {
     return {
@@ -62,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar', 'name']),
+    ...mapGetters(['sidebar', 'avatar', 'name', 'device']),
 
     // 暂时用默认头像!!!
     avatar() {
@@ -161,11 +169,15 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 0 10px;
       height: 100%;
       font-size: 18px;
       color: #5a5e66;
       vertical-align: text-bottom;
+
+      // 追加样式：凸显功能
+      background-color: #ecd8b5;
+      border: #889aa4 5px solid;
 
       &.hover-effect {
         cursor: pointer;
@@ -178,7 +190,14 @@ export default {
     }
 
     .avatar-container {
-      margin-right: 30px;
+      margin-right: 20px;
+      margin-left: 10px;
+      display: inline-block;
+      padding: 0 10px;
+      height: 100%;
+      font-size: 18px;
+      color: #5a5e66;
+      vertical-align: text-bottom;
 
       // 顶部右侧区域样式调整
       .avatar-wrapper {
