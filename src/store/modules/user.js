@@ -2,8 +2,6 @@ import { loginAPI, getUserInfoAllAPI } from '@/api'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { Message } from 'element-ui'
 
-import router from '../../router'
-
 const getDefaultState = () => {
   return {
     token: getToken(), // vuex存储的是cookie中的token

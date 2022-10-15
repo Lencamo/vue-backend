@@ -6,6 +6,12 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+//动态路由
+import teaching from './modules/teaching'
+import other from './modules/other'
+
+export const asyncRoutes = [teaching, other]
+
 export const constantRoutes = [
   {
     path: '/login',
@@ -28,7 +34,7 @@ export const constantRoutes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: 'Dashboard', icon: 'dashboard' }
+        meta: { title: '主页', icon: 'dashboard' }
       }
     ]
   },
@@ -41,7 +47,8 @@ const createRouter = () =>
   new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
+    // routes: constantRoutes
+    routes: [...constantRoutes, ...asyncRoutes]
   })
 
 const router = createRouter()
