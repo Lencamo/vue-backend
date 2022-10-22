@@ -42,7 +42,7 @@ export default {
       width: 130px;
       border-radius: 65px;
       overflow: hidden;
-      background-color: red;
+      // background-color: red;
 
       img {
         width: 100%;

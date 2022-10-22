@@ -19,10 +19,10 @@ export function loginAPI(data) {
  * @returns
  */
 export function getUserInfoAllAPI(tokenValue) {
-  const url = '/user/info/all/token/' + tokenValue
+  // const url = '/user/info/all/token/' +
+  // console.log(url)
   return request({
-    url,
+    url: `/user/info/all/token/${tokenValue}`,
     method: 'get'
   })
 }
-
