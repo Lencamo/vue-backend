@@ -7,10 +7,11 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 //动态路由
+import power from './modules/power'
 import teaching from './modules/teaching'
 import other from './modules/other'
 
-export const asyncRoutes = [teaching, other]
+export const asyncRoutes = [power, teaching, other]
 
 export const constantRoutes = [
   {

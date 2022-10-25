@@ -76,8 +76,13 @@ export default {
       }
     }
     const validdatePwd = (rule, value, callback) => {
-      if (!validPwd(value)) {
-        callback(new Error('请输入由字母、数字组成的8-20位密码！'))
+      // if (!validPwd(value)) {
+      //   callback(new Error('请输入由字母、数字组成的8-20位密码！'))
+      // } else {
+      //   callback()
+      // }
+      if (value === '') {
+        callback(new Error('请输入由字符组成的8-20位密码！'))
       } else {
         callback()
       }
@@ -85,12 +90,15 @@ export default {
     return {
       // 为了开发方便，填写上个默认值
       loginForm: {
-        email: '123456789@qq.com',
-        password: 'ren666666'
+        email: '',
+        password: ''
       },
       loginRules: {
         email: [{ required: true, trigger: 'blur', validator: validdateEmail }],
-        password: [{ required: true, trigger: 'blur', validator: validdatePwd }]
+        password: [
+          { required: true, trigger: 'blur', validator: validdatePwd },
+          { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
+        ]
       },
       loading: false,
       passwordType: 'password',
