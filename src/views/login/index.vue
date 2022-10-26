@@ -82,7 +82,7 @@ export default {
       //   callback()
       // }
       if (value === '') {
-        callback(new Error('请输入由字符组成的8-20位密码！'))
+        callback(new Error('请输入由任意字符组成的8-20位密码！'))
       } else {
         callback()
       }
