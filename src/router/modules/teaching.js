@@ -3,6 +3,7 @@ import Layout from '@/layout'
 export default {
   path: '/teaching',
   component: Layout, // 保持Layout架子渲染
+  alwaysShow: true, // 当children只有一个时，显示根路由
   meta: { title: '教学管理', icon: 'form', roles: ['super-admin', 'root', 'teacher'] },
   children: [
     {
