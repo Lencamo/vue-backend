@@ -62,6 +62,8 @@ const actions = {
     // console.log(res)
     // 存储信息
     commit('SET_UserInfoAll', res.data)
+
+    return res.data
   },
 
   // 退出登录

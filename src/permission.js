@@ -1,6 +1,7 @@
 import router from './router'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
+import { Message } from 'element-ui'
 
 import store from './store'
 import getPageTitle from '@/utils/get-page-title'
@@ -11,7 +12,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/404'] // no redirect whitelist
 
 // 1、前置路由守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 显示进度条
   NProgress.start()
 
@@ -20,14 +21,39 @@ router.beforeEach((to, from, next) => {
   if (token) {
     // 有token进后台
     if (to.path === '/login') {
-      NProgress.done()
       // (token风险防范)
       next('/')
+      NProgress.done()
     } else {
-      next()
-      // (初始化页面时发起的请求)
-      if (!store.getters.name) {
-        store.dispatch('user/getUserInfoAllActions')
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      // 有角色信息
+      if (hasRoles) {
+        next()
+      } else {
+        try {
+          // 1、获取服务器返回的角色数组
+          const { role } = await store.dispatch('user/getUserInfoAllActions')
+          console.log(role)
+
+          // 2、动态添加路由
+          const accessRoutes = await store.dispatch('permission/generateRoutes', role)
+          // console.log(accessRoutes)
+
+          router.options.routes.push(...accessRoutes)
+          router.addRoutes(accessRoutes)
+
+          // console.log(router.options.routes)
+
+          // 细节处理
+          next({ ...to, replace: true })
+        } catch (error) {
+          // 退出登录
+          await store.dispatch('user/logOutActions')
+
+          Message.error(error || 'Has Error')
+          next(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
+          NProgress.done()
+        }
       }
     }
   } else {
