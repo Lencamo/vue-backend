@@ -5,7 +5,11 @@
 </template>
 
 <script>
+import { setToken } from './utils/auth'
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    setToken(window.name)
+  }
 }
 </script>
