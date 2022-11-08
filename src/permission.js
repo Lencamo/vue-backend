@@ -33,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
         try {
           // 1、获取服务器返回的角色数组
           const { role } = await store.dispatch('user/getUserInfoAllActions')
-          console.log(role)
+          // console.log(role)
 
           // 2、动态添加路由
           const accessRoutes = await store.dispatch('permission/generateRoutes', role)
