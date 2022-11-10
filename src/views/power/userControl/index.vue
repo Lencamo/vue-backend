@@ -18,20 +18,20 @@
 
       <!-- 二、主体内容区域 -->
       <el-card style="margin-top: 10px">
-        <el-table border>
-          <el-table-column label="序号" />
-          <el-table-column label="姓名" />
-          <el-table-column label="头像" />
-          <el-table-column label="手机号" />
-          <el-table-column label="工号" />
-          <el-table-column label="聘用形式" />
-          <el-table-column label="部门" />
-          <el-table-column label="入职时间" />
-          <el-table-column label="操作" width="280">
+        <el-table border :data="userList" stripe>
+          <el-table-column type="selection" width="55" align="center" />
+          <el-table-column type="index" label="序号" width="60" align="center" />
+          <el-table-column prop="role" label="角色" width="100" align="center" />
+          <el-table-column prop="name" label="姓名" width="120" align="center" />
+          <el-table-column prop="classes" label="班级" width="180" align="center" />
+          <el-table-column prop="studentId" label="学号" width="180" align="center" />
+          <el-table-column prop="email" label="邮箱" width="180" align="center" />
+          <el-table-column prop="uuid" label="uuid" width="180" align="center" />
+          <el-table-column fixed="right" label="操作" min-width="260" align="center">
             <template>
-              <el-button type="text" size="small">查看</el-button>
-              <el-button type="text" size="small">分配角色</el-button>
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="warning" icon="el-icon-edit-outline" size="mini" plain></el-button>
+              <el-button type="primary" size="mini" plain>分配角色</el-button>
+              <el-button type="danger" icon="el-icon-delete" size="mini" plain></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { getUserListAllAPI } from '@/api'
 export default {
   name: 'Employees',
   data() {
@@ -62,9 +63,12 @@ export default {
         page: 1, // 页码
         size: 10 // 每页条数
       },
-      employeesList: [], // 员工列表
-      total: 0 // 数据总条数
+      total: 0, // 数据总条数
+      userList: [] // 用户列表数据
     }
+  },
+  created() {
+    this.getUserListAllFn()
   },
 
   methods: {
@@ -72,7 +76,16 @@ export default {
     handleSizeChange(newSize) {},
 
     // 当前页面发生改变时触发
-    handleCurrentChange(newPage) {}
+    handleCurrentChange(newPage) {},
+
+    // 获取用户列表
+    async getUserListAllFn() {
+      const { data: res } = await getUserListAllAPI()
+      // console.log(res)
+      if (res.code !== 200) return this.$message.error(res.message)
+
+      this.userList = res.data
+    }
   }
 }
 </script>

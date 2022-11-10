@@ -26,3 +26,16 @@ export function getUserInfoAllAPI(tokenValue) {
     method: 'get'
   })
 }
+
+/**
+ * 获取用户列表
+ * @returns
+ */
+export function getUserListAllAPI() {
+  // const url = '/user/info/all/token/' +
+  // console.log(url)
+  return request({
+    url: '/user/userList',
+    method: 'get'
+  })
+}
