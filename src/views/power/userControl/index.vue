@@ -18,7 +18,7 @@
 
       <!-- 二、主体内容区域 -->
       <el-card style="margin-top: 10px">
-        <el-table border :data="userList" stripe>
+        <el-table ref="usersTable" border :data="userList" @row-dblclick="handleRowDbClick">
           <el-table-column type="selection" width="55" align="center" />
           <el-table-column type="index" label="序号" width="60" align="center" />
           <el-table-column prop="role" label="角色" width="100" align="center" />
@@ -85,6 +85,11 @@ export default {
       if (res.code !== 200) return this.$message.error(res.message)
 
       this.userList = res.data
+    },
+
+    // 表格单行双击事件
+    handleRowDbClick(row) {
+      this.$refs.usersTable.toggleRowSelection(row)
     }
   }
 }
