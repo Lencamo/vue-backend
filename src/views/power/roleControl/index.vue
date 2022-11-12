@@ -14,7 +14,7 @@
             </el-row>
             <!-- 使用 Table 组件实现用户角色的渲染 -->
             <el-table :data="rolesList" border style="width: 100%">
-              <el-table-column type="index" label="序号" width="120" />
+              <el-table-column :index="nextPageIndex" type="index" label="序号" width="120" />
               <el-table-column prop="role" label="角色名" width="240" />
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作">
@@ -154,6 +154,9 @@ export default {
           this.$message.success(res.msg)
 
           this.getRoleListAllAFn()
+          // 清空数据
+          this.roleForm.name = ''
+          this.roleForm.description = ''
           this.showDialog = false
         }
       })
@@ -167,6 +170,11 @@ export default {
       this.roleForm.description = ''
 
       this.showDialog = false
+    },
+
+    // 关于index分页时索引值问题
+    nextPageIndex(index) {
+      return index + 1 + (this.query.page - 1) * this.query.size
     }
   }
 }

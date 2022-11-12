@@ -20,7 +20,13 @@
       <el-card style="margin-top: 10px">
         <el-table ref="usersTable" border :data="userList" @row-dblclick="handleRowDbClick">
           <el-table-column type="selection" width="55" align="center" />
-          <el-table-column type="index" label="序号" width="60" align="center" />
+          <el-table-column
+            :index="nextPageIndex"
+            type="index"
+            label="序号"
+            width="60"
+            align="center"
+          />
           <el-table-column prop="role" label="角色" width="100" align="center" />
           <el-table-column prop="name" label="姓名" width="120" align="center" />
           <el-table-column prop="classes" label="班级" width="180" align="center" />
@@ -98,6 +104,11 @@ export default {
     // 表格单行双击事件
     handleRowDbClick(row) {
       this.$refs.usersTable.toggleRowSelection(row)
+    },
+
+    // 关于index分页时索引值问题
+    nextPageIndex(index) {
+      return index + 1 + (this.query.page - 1) * this.query.size
     }
   }
 }

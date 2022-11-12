@@ -63,5 +63,25 @@ module.exports = [
         total: roleList.length
       }
     }
+  },
+
+  // 删除角色请求处理
+  {
+    url: '/roles/delRole',
+    type: 'delete',
+    response: (config) => {
+      const { name, description } = config.body
+      roleList.push({
+        role: name,
+        description: description
+      })
+
+      return {
+        code: 200,
+        msg: '删除角色成功！',
+        data: roleList,
+        total: roleList.length
+      }
+    }
   }
 ]
