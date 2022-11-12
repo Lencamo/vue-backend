@@ -67,14 +67,16 @@ module.exports = [
 
   // 删除角色请求处理
   {
+    // url: /\/roles\/delRole/,
+    // type: 'delete',
     url: '/roles/delRole',
-    type: 'delete',
+    type: 'post',
     response: (config) => {
-      const { name, description } = config.body
-      roleList.push({
-        role: name,
-        description: description
-      })
+      // const { id } = config.params
+      const { id } = config.body
+
+      const index = roleList.findIndex((item) => item.id === id)
+      roleList.splice(index, 1)
 
       return {
         code: 200,

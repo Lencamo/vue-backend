@@ -25,9 +25,7 @@
                   <el-button size="small" type="primary" @click="editRoles(scope.row)"
                     >编辑</el-button
                   >
-                  <el-button size="small" type="danger" @click="delRoles(scope.row)"
-                    >删除</el-button
-                  >
+                  <el-button size="small" type="danger" @click="delRolesFn(scope)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -75,7 +73,7 @@
 </template>
 
 <script>
-import { getRoleListAllAPI, addRoleAPI } from '@/api'
+import { getRoleListAllAPI, addRoleAPI, delRoleAPI } from '@/api'
 
 export default {
   data() {
@@ -136,7 +134,28 @@ export default {
     editRoles() {},
 
     // 删除角色
-    delRoles() {},
+    async delRolesFn(scope) {
+      // console.log(scope.$index)
+      const id = scope.$index
+
+      // 显示删除询问对话框（必要条件）
+      const delRes = await this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch((err) => err)
+
+      // 1、若取消操作
+      if (delRes === 'cancel') return this.$message.info('您取消了删除')
+
+      // 2、若执行操作
+      const { data: res } = await delRoleAPI(id)
+
+      if (res.code !== 200) return this.$message.error(res.msg)
+      this.$message.success(res.msg)
+
+      this.getRoleListAllAFn()
+    },
 
     // 通过新增角色按钮显示弹窗
     addRoleBtnFn() {

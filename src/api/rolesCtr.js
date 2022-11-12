@@ -23,3 +23,19 @@ export function addRoleAPI(data) {
     data
   })
 }
+
+/**
+ * 删除角色
+ * @returns
+ */
+export function delRoleAPI(id) {
+  return request({
+    // url: `/roles/delRole/${id}`,
+    // method: 'delete'
+    url: '/roles/delRole',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
