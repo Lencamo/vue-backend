@@ -17,7 +17,7 @@ module.exports = [
   // 用户登录接口 ✔
   // 根据token获取用户信息接口 ✔
 
-  // 用户登录请求处理
+  // 用户列表请求处理
   {
     url: '/user/userList',
     type: 'get',

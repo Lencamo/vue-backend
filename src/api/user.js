@@ -32,8 +32,6 @@ export function getUserInfoAllAPI(tokenValue) {
  * @returns
  */
 export function getUserListAllAPI(params) {
-  // const url = '/user/info/all/token/' +
-  // console.log(url)
   return request({
     url: '/user/userList',
     method: 'get',

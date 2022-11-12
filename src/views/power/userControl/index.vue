@@ -87,7 +87,7 @@ export default {
     // 获取用户列表
     async getUserListAllFn() {
       const { data: res } = await getUserListAllAPI(this.query)
-      console.log(res)
+      // console.log(res)
 
       if (res.code !== 200) return this.$message.error(res.message)
 

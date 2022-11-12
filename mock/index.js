@@ -3,8 +3,9 @@ const { param2Obj } = require('./utils')
 
 const user = require('./api-mock/user')
 const role = require('./api-mock/role')
+const roleCtr = require('./api-mock/roleCtr')
 
-const mocks = [...user, ...role]
+const mocks = [...user, ...role, ...roleCtr]
 
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,
