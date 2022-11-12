@@ -43,5 +43,25 @@ module.exports = [
         total: roleList.length
       }
     }
+  },
+
+  // 添加角色请求处理
+  {
+    url: '/roles/addRole',
+    type: 'post',
+    response: (config) => {
+      const { name, description } = config.body
+      roleList.push({
+        role: name,
+        description: description
+      })
+
+      return {
+        code: 200,
+        msg: '添加角色成功！',
+        data: roleList,
+        total: roleList.length
+      }
+    }
   }
 ]

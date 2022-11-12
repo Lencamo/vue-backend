@@ -1,5 +1,5 @@
 <template>
-  <div class="employees-container">
+  <div class="userControl-container">
     <div class="app-container">
       <!-- 一、头部组件引入 -->
       <page-tools>
@@ -89,7 +89,7 @@ export default {
       const { data: res } = await getUserListAllAPI(this.query)
       // console.log(res)
 
-      if (res.code !== 200) return this.$message.error(res.message)
+      if (res.code !== 200) return this.$message.error(res.msg)
 
       this.userList = res.data
       this.total = res.total
