@@ -5,7 +5,7 @@
       <page-tools>
         <!-- 插槽一 -->
         <template #slot-left>
-          <span>共 19 条记录</span>
+          <span>共 {{ total }} 条记录</span>
         </template>
 
         <!-- 插槽二  -->
@@ -40,7 +40,7 @@
           <!-- 分页区域 -->
           <el-pagination
             :current-page="query.page"
-            :page-sizes="[10, 15, 20, 25]"
+            :page-sizes="[5, 10, 15, 20, 25]"
             :page-size="query.size"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
@@ -61,7 +61,7 @@ export default {
     return {
       query: {
         page: 1, // 页码
-        size: 10 // 每页条数
+        size: 5 // 每页条数
       },
       total: 0, // 数据总条数
       userList: [] // 用户列表数据
@@ -73,18 +73,26 @@ export default {
 
   methods: {
     // 每页显示的条数发生改变时触发
-    handleSizeChange(newSize) {},
+    handleSizeChange(newSize) {
+      this.query.size = newSize
+      this.getUserListAllFn()
+    },
 
     // 当前页面发生改变时触发
-    handleCurrentChange(newPage) {},
+    handleCurrentChange(newPage) {
+      this.query.page = newPage
+      this.getUserListAllFn()
+    },
 
     // 获取用户列表
     async getUserListAllFn() {
-      const { data: res } = await getUserListAllAPI()
-      // console.log(res)
+      const { data: res } = await getUserListAllAPI(this.query)
+      console.log(res)
+
       if (res.code !== 200) return this.$message.error(res.message)
 
       this.userList = res.data
+      this.total = res.total
     },
 
     // 表格单行双击事件

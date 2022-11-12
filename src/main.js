@@ -17,6 +17,13 @@ import '@/permission' // permission control
 
 // 导入自定义的插件
 import GlobalComponents from '@/components/index.js'
+
+// 线上使用MockJs进行模拟🤔
+if (process.env.NODE_ENV === 'production') {
+  const { mockXHR } = require('../mock')
+  mockXHR()
+}
+
 Vue.use(GlobalComponents)
 
 // set ElementUI lang to EN
