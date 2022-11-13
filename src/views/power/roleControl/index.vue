@@ -50,6 +50,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :visible.sync="showDialog"
+        @close="closeRoleDialog"
       >
         <el-form ref="roleForm" :model="roleForm" :rules="roleRules" label-width="100px">
           <el-form-item label="角色名称" prop="name">
@@ -200,7 +201,7 @@ export default {
               id: this.roleId,
               roleForm: this.roleForm
             }
-            console.log(data)
+            // console.log(data)
             // 修改角色
             const { data: res } = await editRoleAPI(data)
             // 响应提示
@@ -224,6 +225,12 @@ export default {
       this.roleForm.name = ''
       this.roleForm.description = ''
 
+      this.showDialog = false
+    },
+
+    // 角色弹窗-> x掉时
+    closeRoleDialog() {
+      this.$refs.roleForm.resetFields()
       this.showDialog = false
     },
 
