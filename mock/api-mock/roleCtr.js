@@ -73,7 +73,7 @@ module.exports = [
     type: 'post',
     response: (config) => {
       // const { id } = config.params
-      const { id } = config.body
+      const { id, roleForm } = config.body
 
       const index = roleList.findIndex((item) => item.id === id)
       roleList.splice(index, 1)
@@ -99,6 +99,32 @@ module.exports = [
       return {
         code: 200,
         msg: '获取角色信息成功！',
+        data: roleDetail,
+        total: roleList.length
+      }
+    }
+  },
+
+  // 编辑某个角色信息请求处理
+  {
+    url: '/roles/editRole',
+    type: 'post',
+    response: (config) => {
+      const { id, roleForm } = config.body
+
+      const roleObj = []
+      roleObj.push({
+        role: roleForm.name,
+        description: roleForm.description
+      })
+      // roleObj.role = roleForm.name
+      // roleObj.description = roleForm.description
+
+      const roleDetail = roleList.splice(id, 1, roleObj[0])
+
+      return {
+        code: 200,
+        msg: '更改角色信息成功！',
         data: roleDetail,
         total: roleList.length
       }

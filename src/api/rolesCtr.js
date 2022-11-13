@@ -53,3 +53,15 @@ export function getRoleDetailAPI(id) {
     }
   })
 }
+
+/**
+ * 编辑某个角色信息
+ * @returns
+ */
+export function editRoleAPI(data) {
+  return request({
+    url: '/roles/editRole',
+    method: 'post',
+    data
+  })
+}

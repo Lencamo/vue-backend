@@ -46,7 +46,7 @@
 
       <!-- 添加角色弹窗（新增、修改角色共用） -->
       <el-dialog
-        title="新增角色"
+        :title="isEdit ? '编辑角色' : '新增角色'"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :visible.sync="showDialog"
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { getRoleListAllAPI, addRoleAPI, delRoleAPI, getRoleDetailAPI } from '@/api'
+import { getRoleListAllAPI, addRoleAPI, delRoleAPI, getRoleDetailAPI, editRoleAPI } from '@/api'
 
 export default {
   data() {
@@ -96,13 +96,17 @@ export default {
       roleRules: {
         name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
         description: [{ required: true, message: '角色描述不能为空', trigger: 'blur' }]
-      }
+      },
+
+      isEdit: false, // 由于弹窗是共用的，提交时，判断是编辑请求还是新增请求（默认为新增请求）
+      roleId: null // 供编辑请求时使用
     }
   },
 
   created() {
     this.getRoleListAllAFn()
   },
+
   methods: {
     // 每页显示的条数发生改变时触发
     handleSizeChange(newSize) {
@@ -132,10 +136,14 @@ export default {
 
     // 编辑角色
     async editRolesFn(scope) {
+      this.isEdit = true // 标明弹窗是编辑请求状态
+
       const id = scope.$index
+      this.roleId = id // 供编辑请求时使用
 
       const { data: res } = await getRoleDetailAPI(id)
       // console.log(res)
+      if (res.code !== 200) return this.$message.error(res.msg)
 
       // 显示弹窗
       this.roleForm.name = res.data[0].role
@@ -169,18 +177,36 @@ export default {
 
     // 通过新增角色按钮显示弹窗
     addRoleBtnFn() {
+      this.isEdit = false // 标明弹窗是新增角色状态
       this.showDialog = true
     },
+
     // 角色弹框-> 确定按钮
-    async roleSubmit() {
+    roleSubmit() {
       this.$refs.roleForm.validate(async (valid) => {
         if (valid) {
-          // 添加角色
-          const { data: res } = await addRoleAPI(this.roleForm)
+          // 1、调用新增角色请求
+          if (!this.isEdit) {
+            // 添加角色
+            const { data: res } = await addRoleAPI(this.roleForm)
 
-          // 响应提示
-          if (res.code !== 200) return this.$message.error(res.msg)
-          this.$message.success(res.msg)
+            // 响应提示
+            if (res.code !== 200) return this.$message.error(res.msg)
+
+            this.$message.success(res.msg)
+          } else {
+            // 2、调用编辑角色请求
+            const data = {
+              id: this.roleId,
+              roleForm: this.roleForm
+            }
+            console.log(data)
+            // 修改角色
+            const { data: res } = await editRoleAPI(data)
+            // 响应提示
+            if (res.code !== 200) return this.$message.error(res.msg)
+            this.$message.success(res.msg)
+          }
 
           this.getRoleListAllAFn()
           // 清空数据
