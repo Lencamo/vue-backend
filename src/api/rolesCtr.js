@@ -39,3 +39,17 @@ export function delRoleAPI(id) {
     }
   })
 }
+
+/**
+ * 获取某个角色信息
+ * @returns
+ */
+export function getRoleDetailAPI(id) {
+  return request({
+    url: '/roles/getRoleDetail',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

@@ -85,5 +85,23 @@ module.exports = [
         total: roleList.length
       }
     }
+  },
+
+  // 获取某个角色信息请求处理
+  {
+    url: '/roles/getRoleDetail',
+    type: 'post',
+    response: (config) => {
+      const { id } = config.body
+
+      const roleDetail = roleList.slice(id, id + 1)
+
+      return {
+        code: 200,
+        msg: '获取角色信息成功！',
+        data: roleDetail,
+        total: roleList.length
+      }
+    }
   }
 ]

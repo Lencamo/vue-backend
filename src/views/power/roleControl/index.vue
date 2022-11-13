@@ -22,7 +22,7 @@
                   <el-button size="small" type="success" @click="setRoles(scope.row)"
                     >分配权限</el-button
                   >
-                  <el-button size="small" type="primary" @click="editRoles(scope.row)"
+                  <el-button size="small" type="primary" @click="editRolesFn(scope)"
                     >编辑</el-button
                   >
                   <el-button size="small" type="danger" @click="delRolesFn(scope)">删除</el-button>
@@ -44,7 +44,7 @@
         </el-tabs>
       </el-card>
 
-      <!-- 添加角色弹窗 -->
+      <!-- 添加角色弹窗（新增、修改角色共用） -->
       <el-dialog
         title="新增角色"
         :close-on-click-modal="false"
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { getRoleListAllAPI, addRoleAPI, delRoleAPI } from '@/api'
+import { getRoleListAllAPI, addRoleAPI, delRoleAPI, getRoleDetailAPI } from '@/api'
 
 export default {
   data() {
@@ -131,7 +131,17 @@ export default {
     setRoles() {},
 
     // 编辑角色
-    editRoles() {},
+    async editRolesFn(scope) {
+      const id = scope.$index
+
+      const { data: res } = await getRoleDetailAPI(id)
+      // console.log(res)
+
+      // 显示弹窗
+      this.roleForm.name = res.data[0].role
+      this.roleForm.description = res.data[0].description
+      this.showDialog = true
+    },
 
     // 删除角色
     async delRolesFn(scope) {
