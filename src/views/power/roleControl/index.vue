@@ -82,7 +82,7 @@ export default {
       activeName: 'first',
       query: {
         page: 1, // 当前页面
-        size: 5 // 页面显示的条数
+        size: 10 // 页面显示的条数
       },
       rolesList: [], // 角色列表
       total: 0, // 角色数据总条数

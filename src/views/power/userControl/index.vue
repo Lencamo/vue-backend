@@ -12,7 +12,7 @@
         <template #slot-right>
           <el-button type="danger" size="small">导入excel</el-button>
           <el-button type="success" size="small">导出excel</el-button>
-          <el-button type="primary" size="small">新增用户</el-button>
+          <el-button type="primary" size="small" @click="addUserBtnFn">新增用户</el-button>
         </template>
       </page-tools>
 
@@ -56,13 +56,23 @@
         </el-row>
       </el-card>
     </div>
+
+    <!-- 用户弹窗 -->
+    <el-dialog title="新增用户" :visible.sync="showDialog">
+      <user-dialog :is-dialog.sync="showDialog"></user-dialog>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getUserListAllAPI } from '@/api'
+
+import userDialog from './components/userDialog.vue'
 export default {
   name: 'Employees',
+  components: {
+    userDialog
+  },
   data() {
     return {
       query: {
@@ -70,7 +80,9 @@ export default {
         size: 5 // 每页条数
       },
       total: 0, // 数据总条数
-      userList: [] // 用户列表数据
+      userList: [], // 用户列表数据
+
+      showDialog: false // 是否暂时弹窗
     }
   },
   created() {
@@ -101,6 +113,11 @@ export default {
       this.total = res.total
     },
 
+    // 添加用户按钮
+    addUserBtnFn() {
+      this.showDialog = true
+    },
+
     // 表格单行双击事件
     handleRowDbClick(row) {
       this.$refs.usersTable.toggleRowSelection(row)
@@ -114,4 +131,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep .el-dialog__header {
+  background: #889aa4;
+}
+</style>

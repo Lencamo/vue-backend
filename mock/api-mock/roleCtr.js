@@ -20,7 +20,8 @@ const { roleList } = Mock.mock({
     },
     {
       role: 'user',
-      description: '普通用户（目前仅可查看首页，后期普通用户可能不能进入后台管理）'
+      description:
+        '普通用户（目前给予他了super-admin所拥有的权限，后期普通用户可能不能进入后台管理）'
     }
   ]
 })
