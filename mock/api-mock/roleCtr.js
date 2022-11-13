@@ -130,5 +130,23 @@ module.exports = [
         total: roleList.length
       }
     }
+  },
+
+  // 获取角色列表请求处理
+  {
+    url: '/roles/getRoles',
+    type: 'get',
+    response: (config) => {
+      const roles = roleList.map((item) => {
+        return item.role
+      })
+
+      return {
+        code: 200,
+        msg: '更改角色信息成功！',
+        data: roles,
+        total: roleList.length
+      }
+    }
   }
 ]

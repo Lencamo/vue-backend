@@ -59,13 +59,13 @@
 
     <!-- 用户弹窗 -->
     <el-dialog title="新增用户" :visible.sync="showDialog">
-      <user-dialog :is-dialog.sync="showDialog"></user-dialog>
+      <user-dialog :is-dialog.sync="showDialog" :rolesList="rolesList"></user-dialog>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUserListAllAPI } from '@/api'
+import { getUserListAllAPI, getRoleListAPI } from '@/api'
 
 import userDialog from './components/userDialog.vue'
 export default {
@@ -82,11 +82,14 @@ export default {
       total: 0, // 数据总条数
       userList: [], // 用户列表数据
 
-      showDialog: false // 是否暂时弹窗
+      showDialog: false, // 是否暂时弹窗
+
+      rolesList: [] // 用于传递给弹窗子组件的数据（不在子组件请求：防止api请求泛滥）
     }
   },
   created() {
     this.getUserListAllFn()
+    this.handleRolesList()
   },
 
   methods: {
@@ -126,6 +129,13 @@ export default {
     // 关于index分页时索引值问题
     nextPageIndex(index) {
       return index + 1 + (this.query.page - 1) * this.query.size
+    },
+
+    // 处理获取的rolesList列表
+    async handleRolesList() {
+      const { data: res } = await getRoleListAPI()
+      // console.log(res)
+      this.rolesList = res.data
     }
   }
 }

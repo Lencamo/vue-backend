@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 获取角色列表
+ * 分页获取角色列表
  * @returns
  */
 export function getRoleListAllAPI(params) {
@@ -63,5 +63,16 @@ export function editRoleAPI(data) {
     url: '/roles/editRole',
     method: 'post',
     data
+  })
+}
+
+/**
+ * 获取角色列表
+ * @returns
+ */
+export function getRoleListAPI() {
+  return request({
+    url: '/roles/getRoles',
+    method: 'get'
   })
 }

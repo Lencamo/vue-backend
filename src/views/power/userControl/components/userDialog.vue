@@ -15,10 +15,11 @@
     </el-form-item>
     <el-form-item prop="role" label="角色">
       <el-select v-model="userFormData.role" style="width: 80%" placeholder="请设置用户角色">
-        <el-option label="root" value="root"></el-option>
+        <!-- <el-option label="root" value="root"></el-option>
         <el-option label="oj-admin" value="oj-admin"></el-option>
         <el-option label="teacher" value="teacher"></el-option>
-        <el-option label="user" value="user"></el-option>
+        <el-option label="user" value="user"></el-option> -->
+        <el-option v-for="item in roles" :key="item" :label="item" :value="item" />
       </el-select>
     </el-form-item>
     <el-form-item>
@@ -31,8 +32,12 @@
 <script>
 export default {
   name: 'userDialog',
+  props: ['rolesList'],
   data() {
     return {
+      // 角色列表
+      roles: this.rolesList,
+
       // 表单数据
       userFormData: {
         name: '', // 姓名
