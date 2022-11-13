@@ -14,9 +14,6 @@ const { userList } = Mock.mock({
 })
 
 module.exports = [
-  // 用户登录接口 ✔
-  // 根据token获取用户信息接口 ✔
-
   // 用户列表请求处理
   {
     url: '/user/userList',
@@ -31,6 +28,33 @@ module.exports = [
         code: 200,
         msg: '获取列表成功！',
         data: newsList,
+        total: userList.length
+      }
+    }
+  },
+
+  // 添加用户请求处理
+  {
+    url: '/roles/addUser',
+    type: 'post',
+    response: (config) => {
+      const { role, name, classes, studentId, email } = config.body
+
+      const newUser = Mock.mock({
+        role: role,
+        name: name,
+        classes: classes ? classes : '空',
+        studentId: studentId ? studentId : '空',
+        email: email,
+        uuid: '@guid()'
+      })
+
+      userList.push(newUser)
+
+      return {
+        code: 200,
+        msg: '添加用户成功！',
+        data: userList,
         total: userList.length
       }
     }

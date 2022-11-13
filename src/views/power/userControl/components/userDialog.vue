@@ -15,11 +15,7 @@
     </el-form-item>
     <el-form-item prop="role" label="角色">
       <el-select v-model="userFormData.role" style="width: 80%" placeholder="请设置用户角色">
-        <!-- <el-option label="root" value="root"></el-option>
-        <el-option label="oj-admin" value="oj-admin"></el-option>
-        <el-option label="teacher" value="teacher"></el-option>
-        <el-option label="user" value="user"></el-option> -->
-        <el-option v-for="item in roles" :key="item" :label="item" :value="item" />
+        <el-option v-for="(item, index) in roles" :key="index" :label="item" :value="item" />
       </el-select>
     </el-form-item>
     <el-form-item>
@@ -58,7 +54,8 @@ export default {
             message: '请输入合法的邮箱格式',
             trigger: 'blur'
           }
-        ]
+        ],
+        role: { required: true, message: '请选择用户角色', trigger: 'change' }
       }
     }
   },
@@ -73,7 +70,18 @@ export default {
       // 表单兜底校验
       this.$refs.userForm.validate((valid) => {
         if (valid) {
+          // 先父组件传递表单数据
+          this.$emit('userData', this.userFormData)
+
           this.$emit('update:isDialog', false)
+
+          this.userFormData = {
+            name: '', // 姓名
+            classes: null, // 班级
+            studentId: null, // 学号
+            email: '', // 邮箱
+            role: '' // 角色
+          }
         }
       })
     }

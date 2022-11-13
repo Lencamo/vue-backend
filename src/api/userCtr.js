@@ -11,3 +11,15 @@ export function getUserListAllAPI(params) {
     params
   })
 }
+
+/**
+ * 添加用户
+ * @returns
+ */
+export function addUserAPI(data) {
+  return request({
+    url: '/roles/addUser',
+    method: 'post',
+    data
+  })
+}

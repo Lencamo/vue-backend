@@ -59,13 +59,17 @@
 
     <!-- 用户弹窗 -->
     <el-dialog title="新增用户" :visible.sync="showDialog">
-      <user-dialog :is-dialog.sync="showDialog" :rolesList="rolesList"></user-dialog>
+      <user-dialog
+        :is-dialog.sync="showDialog"
+        :rolesList="rolesList"
+        @userData="userDataAddFn"
+      ></user-dialog>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUserListAllAPI, getRoleListAPI } from '@/api'
+import { getUserListAllAPI, getRoleListAPI, addUserAPI } from '@/api'
 
 import userDialog from './components/userDialog.vue'
 export default {
@@ -136,6 +140,18 @@ export default {
       const { data: res } = await getRoleListAPI()
       // console.log(res)
       this.rolesList = res.data
+    },
+
+    // 添加用户确认后操作
+    async userDataAddFn(val) {
+      // console.log(val)
+      const { data: res } = await addUserAPI(val)
+      // console.log(res)
+
+      if (res.code !== 200) return this.$message.error(res.msg)
+      this.$message.success(res.msg)
+
+      this.getUserListAllFn()
     }
   }
 }
