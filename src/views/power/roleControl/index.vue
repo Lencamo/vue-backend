@@ -147,9 +147,12 @@ export default {
       if (res.code !== 200) return this.$message.error(res.msg)
 
       // 显示弹窗
-      this.roleForm.name = res.data[0].role
-      this.roleForm.description = res.data[0].description
       this.showDialog = true
+      // 注意要放在弹窗显示后面才会生效（解决先编辑，后新增数据回显的bug）
+      this.$nextTick(() => {
+        this.roleForm.name = res.data[0].role
+        this.roleForm.description = res.data[0].description
+      })
     },
 
     // 删除角色
@@ -210,7 +213,7 @@ export default {
           }
 
           this.getRoleListAllAFn()
-          // 清空数据
+          // // 清空数据
           this.roleForm.name = ''
           this.roleForm.description = ''
           this.showDialog = false
@@ -231,7 +234,7 @@ export default {
     // 角色弹窗-> x掉时
     closeRoleDialog() {
       this.$refs.roleForm.resetFields()
-      this.showDialog = false
+      // this.showDialog = false
     },
 
     // 关于index分页时索引值问题
