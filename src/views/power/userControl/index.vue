@@ -27,8 +27,28 @@
             width="60"
             align="center"
           />
-          <el-table-column prop="role" label="角色" width="100" align="center" />
           <el-table-column prop="name" label="姓名" width="120" align="center" />
+          <!-- <el-table-column prop="role" label="角色" width="100" align="center" /> -->
+          <el-table-column prop="role" label="角色" width="100" align="center">
+            <template slot-scope="scope">
+              <el-tag
+                effect="plain"
+                size="small"
+                :type="
+                  scope.row.role == 'super-admin'
+                    ? 'danger'
+                    : scope.row.role == 'root'
+                    ? 'warning'
+                    : scope.row.role == 'oj-admin'
+                    ? 'primary'
+                    : scope.row.role == 'teacher'
+                    ? 'success'
+                    : 'info'
+                "
+                >{{ scope.row.role }}</el-tag
+              >
+            </template>
+          </el-table-column>
           <el-table-column prop="classes" label="班级" width="180" align="center" />
           <el-table-column prop="studentId" label="学号" width="180" align="center" />
           <el-table-column prop="email" label="邮箱" width="180" align="center" />

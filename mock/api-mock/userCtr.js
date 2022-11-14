@@ -3,7 +3,7 @@ const Mock = require('mockjs')
 const { userList } = Mock.mock({
   'userList|35': [
     {
-      'role|1': ['user', 'teacher', 'super-admin', 'root'],
+      'role|1': ['user', 'teacher', 'super-admin', 'root', 'oj-admin'],
       name: '@cname()',
       classes: '软件@string(number,1,2).@string(number,1,2)本',
       studentId: '@id()',
