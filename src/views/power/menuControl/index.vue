@@ -13,11 +13,29 @@
               border
               default-expand-all
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+              :cell-style="cellStyle"
             >
               <el-table-column prop="title" label="菜单名称" width="180"> </el-table-column>
-              <el-table-column prop="icon" label="图标" width="180"> </el-table-column>
+              <el-table-column prop="icon" label="图标名称" width="180"> </el-table-column>
               <el-table-column prop="roles" label="权限标识"> </el-table-column>
               <el-table-column prop="path" label="组件路径"> </el-table-column>
+              <el-table-column
+                prop="operate"
+                label="操作"
+                align="center"
+                style="background: #ffffff"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    icon="el-icon-edit-outline"
+                    size="mini"
+                    plain
+                    type="primary"
+                    @click="editRolesFn(scope)"
+                    >编辑</el-button
+                  >
+                </template>
+              </el-table-column>
             </el-table>
           </el-tab-pane>
         </el-tabs>
@@ -73,13 +91,39 @@ export default {
         },
         {
           id: 2,
+          title: '教学管理',
+          icon: 'form',
+          // roles: ['super-admin', 'root'],
+          roles: 'root',
+          path: '/teaching',
+          children: [
+            {
+              id: 21,
+              title: '班级管理',
+              icon: 'example',
+              // roles: ['super-admin', 'root'],
+              roles: 'root',
+              path: 'classSide'
+            },
+            {
+              id: 22,
+              title: '教师管理',
+              icon: 'user',
+              // roles: ['super-admin', 'root'],
+              roles: 'root',
+              path: 'teacherSide'
+            }
+          ]
+        },
+        {
+          id: 3,
           title: '其他模块',
           icon: 'form',
           roles: ['super-admin', 'root', 'user'],
           path: '/other',
           children: [
             {
-              id: 21,
+              id: 31,
               title: '其他模块',
               icon: 'nested',
               roles: ['super-admin', 'root', 'user'],
@@ -91,16 +135,21 @@ export default {
     }
   },
   methods: {
+    // 特殊位置单个cell背景处理
+    cellStyle(row) {
+      // console.log(row)
+      if (row.row.children !== undefined && row.columnIndex === 4) {
+        return 'background-color: #ffffff'
+      } else if (row.row.children !== undefined && row.columnIndex >= 0 && row.columnIndex <= 3) {
+        return 'background-color: #e8ebed'
+      }
+    }
     // 对路由表进行处理，生成表格数据
   }
 }
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-dialog__header {
-  background: #889aa4;
-}
-
 .box-card {
   padding: 10px 30px;
 }
