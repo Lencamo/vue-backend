@@ -35,7 +35,13 @@
           <el-table-column prop="uuid" label="uuid" width="180" align="center" />
           <el-table-column fixed="right" label="操作" min-width="260" align="center">
             <template slot-scope="scope">
-              <el-button type="warning" icon="el-icon-edit-outline" size="mini" plain></el-button>
+              <el-button
+                @click="editUserBtnFn(scope)"
+                type="warning"
+                icon="el-icon-edit-outline"
+                size="mini"
+                plain
+              ></el-button>
               <el-button type="primary" size="mini" plain>分配角色</el-button>
               <el-button
                 @click="delUserBtnFn(scope)"
@@ -64,19 +70,33 @@
     </div>
 
     <!-- 用户弹窗 -->
-    <el-dialog title="新增用户" :visible.sync="showDialog" @close="dialogCloseFn">
+    <el-dialog
+      :title="isEdit ? '编辑用户' : '新增用户'"
+      :visible.sync="showDialog"
+      @close="dialogCloseFn"
+    >
       <user-dialog
         ref="userDialog"
         :is-dialog.sync="showDialog"
         :rolesList="rolesList"
-        @userData="userDataAddFn"
+        :userDetail="userDetail"
+        :isEdit="isEdit"
+        @userDataAdd="userDataAddFn"
+        @userDataEdit="userDataEditFn"
       ></user-dialog>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUserListAllAPI, getRoleListAPI, addUserAPI, delUserAPI } from '@/api'
+import {
+  getUserListAllAPI,
+  getRoleListAPI,
+  addUserAPI,
+  delUserAPI,
+  getUserDetailAPI,
+  editUserAPI
+} from '@/api'
 
 import userDialog from './components/userDialog.vue'
 export default {
@@ -95,7 +115,11 @@ export default {
 
       showDialog: false, // 是否暂时弹窗
 
-      rolesList: [] // 用于传递给弹窗子组件的数据（不在子组件请求：防止api请求泛滥）
+      rolesList: [], // 用于传递给弹窗子组件的数据（不在子组件请求：防止api请求泛滥）
+
+      isEdit: false, // 由于弹窗是共用的，提交时，判断是编辑请求还是新增请求（默认为新增请求）
+      userDetail: '', // 用户信息（用于传递给子组件）
+      userId: '' // 用户的索引值（供编辑用户请求调用）
     }
   },
   created() {
@@ -129,6 +153,7 @@ export default {
 
     // 添加用户按钮
     addUserBtnFn() {
+      this.isEdit = false // 标明弹窗是新增角色状态
       this.showDialog = true
     },
 
@@ -155,6 +180,25 @@ export default {
       this.getUserListAllFn()
     },
 
+    // 编辑用户按钮
+    async editUserBtnFn(scope) {
+      this.isEdit = true // 标明弹窗是编辑请求状态
+
+      const id = scope.$index
+      this.userId = id // 供编辑请求时使用
+
+      const { data: res } = await getUserDetailAPI(id)
+      // console.log(res)
+      if (res.code !== 200) return this.$message.error(res.msg)
+
+      // 显示弹窗
+      this.showDialog = true
+
+      // 数据回显（注意编辑时解决数据回显问题）
+      this.userDetail = res.data[0]
+      // console.log(this.userDetail)
+    },
+
     // 表格单行双击事件
     handleRowDbClick(row) {
       this.$refs.usersTable.toggleRowSelection(row)
@@ -176,6 +220,23 @@ export default {
     async userDataAddFn(val) {
       // console.log(val)
       const { data: res } = await addUserAPI(val)
+      // console.log(res)
+
+      if (res.code !== 200) return this.$message.error(res.msg)
+      this.$message.success(res.msg)
+
+      this.getUserListAllFn()
+    },
+
+    // 编辑用户确认后操作
+    async userDataEditFn(val) {
+      // console.log(val)
+      const data = {
+        id: this.userId,
+        userForm: val
+      }
+
+      const { data: res } = await editUserAPI(data)
       // console.log(res)
 
       if (res.code !== 200) return this.$message.error(res.msg)

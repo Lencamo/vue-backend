@@ -73,8 +73,47 @@ module.exports = [
 
       return {
         code: 200,
-        msg: '删除角色成功！',
+        msg: '删除用户成功！',
         data: userList,
+        total: userList.length
+      }
+    }
+  },
+
+  // 获取某个角色信息请求处理
+  {
+    url: '/roles/getUserDetail',
+    type: 'post',
+    response: (config) => {
+      const { id } = config.body
+
+      const userDetail = userList.slice(id, id + 1)
+
+      return {
+        code: 200,
+        msg: '获取用户信息成功！',
+        data: userDetail,
+        total: userList.length
+      }
+    }
+  },
+
+  // 编辑某个用户信息请求处理
+  {
+    url: '/roles/editUser',
+    type: 'post',
+    response: (config) => {
+      const { id, userForm } = config.body
+
+      const userObj = []
+      userObj.push(userForm)
+
+      const userDetail = userList.splice(id, 1, userObj[0])
+
+      return {
+        code: 200,
+        msg: '更改用户信息成功！',
+        data: userDetail,
         total: userList.length
       }
     }

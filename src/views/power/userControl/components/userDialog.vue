@@ -28,11 +28,18 @@
 <script>
 export default {
   name: 'userDialog',
-  props: ['rolesList'],
+  props: ['rolesList', 'userDetail', 'isEdit'],
+  created() {
+    this.userFormData = this.userDetail
+  },
   data() {
     return {
       // 角色列表
       roles: this.rolesList,
+      // 当前行的用户信息
+      userDetail: this.userDetail,
+      // 当前弹窗所处的状态
+      isEdit: this.isEdit,
 
       // 表单数据
       userFormData: {
@@ -70,10 +77,16 @@ export default {
       // 表单兜底校验
       this.$refs.userForm.validate((valid) => {
         if (valid) {
-          // 先父组件传递表单数据
-          this.$emit('userData', this.userFormData)
-
-          this.$emit('update:isDialog', false)
+          // 1、调用新增角色请求
+          if (!this.isEdit) {
+            // 先父组件传递表单数据
+            this.$emit('userDataAdd', this.userFormData)
+            this.$emit('update:isDialog', false)
+          } else {
+            // 2、调用编辑角色请求
+            this.$emit('userDataEdit', this.userFormData)
+            this.$emit('update:isDialog', false)
+          }
 
           this.userFormData = {
             name: '', // 姓名

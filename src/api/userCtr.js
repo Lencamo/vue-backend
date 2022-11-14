@@ -37,3 +37,29 @@ export function delUserAPI(id) {
     }
   })
 }
+
+/**
+ * 获取某个用户信息
+ * @returns
+ */
+export function getUserDetailAPI(id) {
+  return request({
+    url: '/roles/getUserDetail',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}
+
+/**
+ * 编辑某个用户信息
+ * @returns
+ */
+export function editUserAPI(data) {
+  return request({
+    url: '/roles/editUser',
+    method: 'post',
+    data
+  })
+}
