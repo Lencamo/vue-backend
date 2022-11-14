@@ -58,5 +58,25 @@ module.exports = [
         total: userList.length
       }
     }
+  },
+
+  // 删除角色请求处理
+  {
+    url: '/roles/delUser',
+    type: 'post',
+    response: (config) => {
+      // const { id } = config.params
+      const { id } = config.body
+
+      const index = userList.findIndex((item) => item.id === id)
+      userList.splice(index, 1)
+
+      return {
+        code: 200,
+        msg: '删除角色成功！',
+        data: userList,
+        total: userList.length
+      }
+    }
   }
 ]

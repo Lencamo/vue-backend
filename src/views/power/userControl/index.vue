@@ -34,10 +34,16 @@
           <el-table-column prop="email" label="邮箱" width="180" align="center" />
           <el-table-column prop="uuid" label="uuid" width="180" align="center" />
           <el-table-column fixed="right" label="操作" min-width="260" align="center">
-            <template>
+            <template slot-scope="scope">
               <el-button type="warning" icon="el-icon-edit-outline" size="mini" plain></el-button>
               <el-button type="primary" size="mini" plain>分配角色</el-button>
-              <el-button type="danger" icon="el-icon-delete" size="mini" plain></el-button>
+              <el-button
+                @click="delUserBtnFn(scope)"
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                plain
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -58,8 +64,9 @@
     </div>
 
     <!-- 用户弹窗 -->
-    <el-dialog title="新增用户" :visible.sync="showDialog">
+    <el-dialog title="新增用户" :visible.sync="showDialog" @close="dialogCloseFn">
       <user-dialog
+        ref="userDialog"
         :is-dialog.sync="showDialog"
         :rolesList="rolesList"
         @userData="userDataAddFn"
@@ -69,7 +76,7 @@
 </template>
 
 <script>
-import { getUserListAllAPI, getRoleListAPI, addUserAPI } from '@/api'
+import { getUserListAllAPI, getRoleListAPI, addUserAPI, delUserAPI } from '@/api'
 
 import userDialog from './components/userDialog.vue'
 export default {
@@ -125,6 +132,29 @@ export default {
       this.showDialog = true
     },
 
+    // 删除用户按钮
+    async delUserBtnFn(scope) {
+      const id = scope.$index
+
+      // 显示删除询问对话框（必要条件）
+      const delRes = await this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch((err) => err)
+
+      // 1、若取消操作
+      if (delRes === 'cancel') return this.$message.info('您取消了删除')
+
+      // 2、若执行操作
+      const { data: res } = await delUserAPI(id)
+
+      if (res.code !== 200) return this.$message.error(res.msg)
+      this.$message.success(res.msg)
+
+      this.getUserListAllFn()
+    },
+
     // 表格单行双击事件
     handleRowDbClick(row) {
       this.$refs.usersTable.toggleRowSelection(row)
@@ -152,6 +182,14 @@ export default {
       this.$message.success(res.msg)
 
       this.getUserListAllFn()
+    },
+
+    // 关闭弹窗时，清空表单👏
+    dialogCloseFn() {
+      // 防止新增用户在提交前被清空
+      this.$nextTick(() => {
+        this.$refs.userDialog.$refs.userForm.resetFields()
+      })
     }
   }
 }

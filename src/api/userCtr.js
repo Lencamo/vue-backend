@@ -23,3 +23,17 @@ export function addUserAPI(data) {
     data
   })
 }
+
+/**
+ * 删除用户
+ * @returns
+ */
+export function delUserAPI(id) {
+  return request({
+    url: '/roles/delUser',
+    method: 'post',
+    data: {
+      id
+    }
+  })
+}

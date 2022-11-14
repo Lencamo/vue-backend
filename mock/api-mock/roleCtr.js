@@ -74,7 +74,7 @@ module.exports = [
     type: 'post',
     response: (config) => {
       // const { id } = config.params
-      const { id, roleForm } = config.body
+      const { id } = config.body
 
       const index = roleList.findIndex((item) => item.id === id)
       roleList.splice(index, 1)
