@@ -4,7 +4,7 @@ const getters = {
   token: (state) => state.user.token,
   avatar: (state) => state.user.avatar,
   // name: state => state.user.name
-  name: (state) => state.user.userInfoAll.studentId, // 返回用户名
+  name: (state) => state.user.userInfoAll.email, // 返回用户名
   roles: (state) => state.user.userInfoAll.role // 返回角色信息
 }
 export default getters
