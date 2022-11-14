@@ -13,11 +13,22 @@
               >
             </el-row>
             <!-- 使用 Table 组件实现用户角色的渲染 -->
-            <el-table :data="rolesList" border style="width: 100%">
-              <el-table-column :index="nextPageIndex" type="index" label="序号" width="120" />
-              <el-table-column prop="role" label="角色名" width="240" />
+            <el-table
+              :data="rolesList"
+              border
+              :header-cell-style="headContentClass"
+              style="width: 100%"
+            >
+              <el-table-column
+                :index="nextPageIndex"
+                type="index"
+                label="序号"
+                width="120"
+                align="center"
+              />
+              <el-table-column prop="role" label="角色名" width="240" align="center" />
               <el-table-column prop="description" label="描述" />
-              <el-table-column label="操作">
+              <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                   <el-button size="small" type="success" @click="setRoles(scope.row)"
                     >分配权限</el-button
@@ -119,6 +130,11 @@ export default {
     handleCurrentChange(newPage) {
       this.query.page = newPage
       this.getRoleListAllAFn()
+    },
+
+    // 表头调整
+    headContentClass() {
+      return 'text-align: center'
     },
 
     // 获取角色列表

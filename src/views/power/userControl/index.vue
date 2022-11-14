@@ -18,7 +18,14 @@
 
       <!-- 二、主体内容区域 -->
       <el-card style="margin-top: 10px">
-        <el-table ref="usersTable" border :data="userList" @row-dblclick="handleRowDbClick">
+        <el-table
+          :cell-style="contentClass"
+          :header-cell-style="headContentClass"
+          ref="usersTable"
+          border
+          :data="userList"
+          @row-dblclick="handleRowDbClick"
+        >
           <el-table-column type="selection" width="55" align="center" />
           <el-table-column
             :index="nextPageIndex"
@@ -49,11 +56,11 @@
               >
             </template>
           </el-table-column>
-          <el-table-column prop="classes" label="班级" width="180" align="center" />
-          <el-table-column prop="studentId" label="学号" width="180" align="center" />
-          <el-table-column prop="email" label="邮箱" width="180" align="center" />
-          <el-table-column prop="uuid" label="uuid" width="180" align="center" />
-          <el-table-column fixed="right" label="操作" min-width="260" align="center">
+          <el-table-column prop="classes" label="班级" width="180" />
+          <el-table-column prop="studentId" label="学号" width="180" />
+          <el-table-column prop="email" label="邮箱" width="180" />
+          <el-table-column prop="uuid" label="uuid" width="180" />
+          <el-table-column fixed="right" label="操作" min-width="260">
             <template slot-scope="scope">
               <el-button
                 @click="editUserBtnFn(scope)"
@@ -158,6 +165,16 @@ export default {
     handleCurrentChange(newPage) {
       this.query.page = newPage
       this.getUserListAllFn()
+    },
+
+    // 表单内容位置调整
+    contentClass() {
+      return 'text-align: center'
+    },
+
+    // 表头调整
+    headContentClass() {
+      return 'text-align: center'
     },
 
     // 获取用户列表
