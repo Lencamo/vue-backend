@@ -30,7 +30,9 @@ export default {
   name: 'userDialog',
   props: ['rolesList', 'userDetail', 'isEdit'],
   created() {
-    this.userFormData = this.userDetail
+    this.$nextTick(() => {
+      this.userFormData = this.userDetail
+    })
   },
   data() {
     return {
