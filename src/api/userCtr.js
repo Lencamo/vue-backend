@@ -63,3 +63,15 @@ export function editUserAPI(data) {
     data
   })
 }
+
+/**
+ * 更改用户角色信息
+ * @returns
+ */
+export function userRoleChangeAPI(data) {
+  return request({
+    url: '/user/userRoleChange',
+    method: 'post',
+    data
+  })
+}

@@ -121,5 +121,23 @@ module.exports = [
         total: userList.length
       }
     }
+  },
+
+  // 更改用户角色信息请求处理
+  {
+    url: '/user/userRoleChange',
+    type: 'post',
+    response: (config) => {
+      const { id, role } = config.body
+
+      const userDetail = userList.slice(id, id + 1)
+      // console.log(userDetail)
+      userDetail[0].role = role
+
+      return {
+        code: 200,
+        msg: '更改用户角色成功！'
+      }
+    }
   }
 ]

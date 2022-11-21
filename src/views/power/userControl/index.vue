@@ -69,7 +69,9 @@
                 size="mini"
                 plain
               ></el-button>
-              <el-button type="primary" size="mini" plain>分配角色</el-button>
+              <el-button @click="assignRole(scope)" type="primary" size="mini" plain
+                >更改角色</el-button
+              >
               <el-button
                 @click="delUserBtnFn(scope)"
                 type="danger"
@@ -112,6 +114,15 @@
         @userDataEdit="userDataEditFn"
       ></user-dialog>
     </el-dialog>
+
+    <!-- 分配角色弹窗 -->
+    <el-dialog title="分配权限" :visible.sync="showDialogNext" @close="cancleDialog">
+      <give-role-dialog
+        :rolesList="rolesList"
+        @close="showDialogNext = false"
+        @confirm="roleChangeFn"
+      ></give-role-dialog>
+    </el-dialog>
   </div>
 </template>
 
@@ -122,17 +133,22 @@ import {
   addUserAPI,
   delUserAPI,
   getUserDetailAPI,
-  editUserAPI
+  editUserAPI,
+  userRoleChangeAPI
 } from '@/api'
 
 import userDialog from './components/userDialog.vue'
+import giveRoleDialog from './components/giveRoleDialog'
+
 export default {
   name: 'Employees',
   components: {
-    userDialog
+    userDialog,
+    giveRoleDialog
   },
   data() {
     return {
+      test1: true,
       query: {
         page: 1, // 页码
         size: 5 // 每页条数
@@ -140,13 +156,15 @@ export default {
       total: 0, // 数据总条数
       userList: [], // 用户列表数据
 
-      showDialog: false, // 是否暂时弹窗
+      showDialog: false, // 是否展示用户弹窗
 
       rolesList: [], // 用于传递给弹窗子组件的数据（不在子组件请求：防止api请求泛滥）
 
       isEdit: false, // 由于弹窗是共用的，提交时，判断是编辑请求还是新增请求（默认为新增请求）
       userDetail: '', // 用户信息（用于传递给子组件）
-      userId: '' // 用户的索引值（供编辑用户请求调用）
+      userId: '', // 用户的索引值（供编辑用户请求调用）
+
+      showDialogNext: false // 是否展示角色弹窗
     }
   },
   created() {
@@ -194,7 +212,7 @@ export default {
       this.showDialog = true
     },
 
-    // 删除用户按钮
+    // 1、删除用户按钮
     async delUserBtnFn(scope) {
       const id = scope.$index
 
@@ -217,12 +235,12 @@ export default {
       this.getUserListAllFn()
     },
 
-    // 编辑用户按钮
+    // 2、编辑用户按钮
     async editUserBtnFn(scope) {
       this.isEdit = true // 标明弹窗是编辑请求状态
 
       const id = scope.$index
-      this.userId = id // 供编辑请求时使用
+      this.userId = id // 供弹窗编辑请求时使用
 
       const { data: res } = await getUserDetailAPI(id)
       // console.log(res)
@@ -234,6 +252,17 @@ export default {
       // 数据回显（注意编辑时解决数据回显问题）
       this.userDetail = res.data[0]
       // console.log(this.userDetail)
+    },
+
+    // 3、分配角色按钮
+    assignRole(scope) {
+      const id = scope.$index
+      // console.log(id)
+      this.userId = id // 供弹窗编辑请求时使用
+      // console.log(this.userId)
+
+      // 显示弹窗
+      this.showDialogNext = true
     },
 
     // 表格单行双击事件
@@ -282,12 +311,37 @@ export default {
       this.getUserListAllFn()
     },
 
-    // 关闭弹窗时，清空表单👏
+    // 更改角色确然操作
+    async roleChangeFn(val) {
+      console.log(val)
+
+      const data = {
+        id: this.userId,
+        role: val
+      }
+      // console.log(data)
+
+      const { data: res } = await userRoleChangeAPI(data)
+      // console.log(res)
+      if (res.code !== 200) return this.$message.error(res.msg)
+      this.$message.success(res.msg)
+
+      this.showDialogNext = false
+
+      this.getUserListAllFn()
+    },
+
+    // 关闭用户弹窗时，清空表单👏
     dialogCloseFn() {
       // 防止新增用户在提交前被清空
       this.$nextTick(() => {
         this.$refs.userDialog.$refs.userForm.resetFields()
       })
+    },
+
+    // 关闭角色弹窗
+    cancleDialog() {
+      this.showDialogNext = false
     }
   }
 }
