@@ -18,7 +18,7 @@ export function getUserListAllAPI(params) {
  */
 export function addUserAPI(data) {
   return request({
-    url: '/roles/addUser',
+    url: '/user/addUser',
     method: 'post',
     data
   })
@@ -30,7 +30,7 @@ export function addUserAPI(data) {
  */
 export function delUserAPI(id) {
   return request({
-    url: '/roles/delUser',
+    url: '/user/delUser',
     method: 'post',
     data: {
       id
@@ -44,7 +44,7 @@ export function delUserAPI(id) {
  */
 export function getUserDetailAPI(id) {
   return request({
-    url: '/roles/getUserDetail',
+    url: '/user/getUserDetail',
     method: 'post',
     data: {
       id
@@ -58,7 +58,7 @@ export function getUserDetailAPI(id) {
  */
 export function editUserAPI(data) {
   return request({
-    url: '/roles/editUser',
+    url: '/user/editUser',
     method: 'post',
     data
   })

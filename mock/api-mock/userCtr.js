@@ -35,7 +35,7 @@ module.exports = [
 
   // 添加用户请求处理
   {
-    url: '/roles/addUser',
+    url: '/user/addUser',
     type: 'post',
     response: (config) => {
       const { role, name, classes, studentId, email } = config.body
@@ -60,9 +60,9 @@ module.exports = [
     }
   },
 
-  // 删除角色请求处理
+  // 删除用户请求处理
   {
-    url: '/roles/delUser',
+    url: '/user/delUser',
     type: 'post',
     response: (config) => {
       // const { id } = config.params
@@ -86,7 +86,7 @@ module.exports = [
 
   // 获取某个角色信息请求处理
   {
-    url: '/roles/getUserDetail',
+    url: '/user/getUserDetail',
     type: 'post',
     response: (config) => {
       const { id } = config.body
@@ -104,7 +104,7 @@ module.exports = [
 
   // 编辑某个用户信息请求处理
   {
-    url: '/roles/editUser',
+    url: '/user/editUser',
     type: 'post',
     response: (config) => {
       const { id, userForm } = config.body
