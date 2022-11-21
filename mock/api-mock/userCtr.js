@@ -68,8 +68,12 @@ module.exports = [
       // const { id } = config.params
       const { id } = config.body
 
-      const index = userList.findIndex((item) => item.id === id)
-      userList.splice(index, 1)
+      // const index = userList.findIndex((item) => item.id === id)
+      // console.log(index)
+      // userList.splice(index, 1)
+      // console.log(id)
+
+      userList.splice(id, 1)
 
       return {
         code: 200,

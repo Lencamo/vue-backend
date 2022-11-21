@@ -8,6 +8,7 @@ import request from '@/utils/request'
 export function loginAPI(data) {
   return request({
     url: 'http://127.0.0.1:4523/m1/1713872-0-default/user/login',
+    // url: 'http://10.22.130.17:30892/user/login',
     method: 'post',
     data
   })
@@ -23,6 +24,7 @@ export function getUserInfoAllAPI(tokenValue) {
   // console.log(url)
   return request({
     url: `http://127.0.0.1:4523/m1/1713872-0-default/user/info/all/token/${tokenValue}`,
+    // url: `http://10.22.130.17:30892/user/info/all/token/${tokenValue}`,
     method: 'get'
   })
 }

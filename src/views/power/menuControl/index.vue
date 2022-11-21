@@ -87,16 +87,14 @@ export default {
           id: 1,
           title: '权限管理',
           icon: 'form',
-          roles: ['super-admin', 'root'],
-          // roles: 'root',
+          roles: ['super-admin', 'root', 'teacher'],
           path: '/power',
           children: [
             {
               id: 11,
               title: '用户管理',
               icon: 'user',
-              roles: ['super-admin'],
-              // roles: 'root',
+              roles: ['super-admin', 'teacher'],
               path: 'userControl'
             },
             {
@@ -104,7 +102,6 @@ export default {
               title: '角色管理',
               icon: 'nested',
               roles: ['super-admin', 'root'],
-              // roles: 'root',
               path: 'roleControl'
             },
             {
@@ -112,7 +109,6 @@ export default {
               title: '菜单管理',
               icon: 'example',
               roles: ['super-admin', 'root'],
-              // roles: 'root',
               path: 'menuControl'
             }
           ]
@@ -122,7 +118,6 @@ export default {
           title: '教学管理',
           icon: 'form',
           roles: ['super-admin', 'teacher'],
-          // roles: 'root',
           path: '/teaching',
           children: [
             {
@@ -130,7 +125,6 @@ export default {
               title: '班级管理',
               icon: 'example',
               roles: ['super-admin', 'teacher'],
-              // roles: 'root',
               path: 'classSide'
             },
             {
@@ -138,7 +132,6 @@ export default {
               title: '教师管理',
               icon: 'user',
               roles: ['super-admin', 'teacher'],
-              // roles: 'root',
               path: 'teacherSide'
             }
           ]
