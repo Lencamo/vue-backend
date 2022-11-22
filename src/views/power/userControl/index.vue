@@ -313,7 +313,7 @@ export default {
 
     // 更改角色确然操作
     async roleChangeFn(val) {
-      console.log(val)
+      // console.log(val)
 
       const data = {
         id: this.userId,

@@ -55,8 +55,8 @@ export default {
 
 <style lang="scss" scoped>
 .core-box {
-  margin: 20px 10px;
-  padding-bottom: 10px;
+  margin: 0px 0px;
+  padding-bottom: 20px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -65,7 +65,14 @@ export default {
 }
 
 .radio-item {
-  margin: 20px;
+  margin: 10px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.radio-item:hover {
+  border-radius: 20px;
+  background-color: #f3f4f5;
 }
 
 ::v-deep .el-radio__label {

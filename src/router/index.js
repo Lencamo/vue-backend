@@ -11,7 +11,13 @@ import power from './modules/power'
 import teaching from './modules/teaching'
 import other from './modules/other'
 
-export const asyncRoutes = [power, teaching, other]
+export const asyncRoutes = [
+  power,
+  teaching,
+  other,
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
 
 export const constantRoutes = [
   {
@@ -38,10 +44,7 @@ export const constantRoutes = [
         meta: { title: '主页', icon: 'dashboard' }
       }
     ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
 const createRouter = () =>
