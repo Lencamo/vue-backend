@@ -30,7 +30,7 @@
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                  <el-button size="small" type="success" @click="setRoles(scope.row)"
+                  <el-button size="small" type="success" @click="setRoles(scope)"
                     >分配权限</el-button
                   >
                   <el-button size="small" type="primary" @click="editRolesFn(scope)"
@@ -80,14 +80,39 @@
           </el-col>
         </el-row>
       </el-dialog>
+
+      <!-- 分配权限弹窗 -->
+      <el-dialog
+        title="分配权限"
+        :visible.sync="dialogVisible"
+        width="35%"
+        @close="closeMenuDialog"
+      >
+        <role-permission-dialog
+          :role-id="roleId"
+          :menu-list-all="menuListAll"
+          @close="closeMenuDialog"
+        ></role-permission-dialog>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getRoleListAllAPI, addRoleAPI, delRoleAPI, getRoleDetailAPI, editRoleAPI } from '@/api'
+import {
+  getRoleListAllAPI,
+  addRoleAPI,
+  delRoleAPI,
+  getRoleDetailAPI,
+  editRoleAPI,
+  getMenuListAllAPI
+} from '@/api'
+import rolePermissionDialog from './components/rolePermissionDialog'
 
 export default {
+  components: {
+    rolePermissionDialog
+  },
   data() {
     return {
       activeName: 'first',
@@ -111,12 +136,16 @@ export default {
       },
 
       isEdit: false, // 由于弹窗是共用的，提交时，判断是编辑请求还是新增请求（默认为新增请求）
-      roleId: null // 供编辑请求时使用
+      roleId: null, // 供编辑请求时使用
+
+      dialogVisible: false, // 分配权限弹窗的隐藏和展示
+      menuListAll: [] // 权限菜单列表
     }
   },
 
   created() {
-    this.getRoleListAllAFn()
+    this.getRoleListAllFn()
+    this.getMenuListAllFn()
   },
 
   methods: {
@@ -138,7 +167,7 @@ export default {
     },
 
     // 获取角色列表
-    async getRoleListAllAFn() {
+    async getRoleListAllFn() {
       const { data: res } = await getRoleListAllAPI(this.query)
       // console.log(res)
 
@@ -148,8 +177,23 @@ export default {
       this.total = res.total
     },
 
+    // 获取权限菜单列表
+    async getMenuListAllFn() {
+      const { data: res } = await getMenuListAllAPI()
+      // console.log(res)
+
+      if (res.code !== 200) return this.$message.error(res.msg)
+
+      this.menuListAll = res.data
+    },
+
     // 设置角色
-    setRoles() {},
+    setRoles(scope) {
+      this.dialogVisible = true
+
+      const id = scope.$index
+      this.roleId = id // 供api请求使用
+    },
 
     // 编辑角色
     async editRolesFn(scope) {
@@ -250,12 +294,17 @@ export default {
     // 角色弹窗-> x掉时
     closeRoleDialog() {
       this.$refs.roleForm.resetFields()
-      // this.showDialog = false
+      this.showDialog = false
     },
 
     // 关于index分页时索引值问题
     nextPageIndex(index) {
       return index + 1 + (this.query.page - 1) * this.query.size
+    },
+
+    // 分配权限-> x掉时
+    closeMenuDialog() {
+      this.dialogVisible = false
     }
   }
 }

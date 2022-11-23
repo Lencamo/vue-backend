@@ -14,7 +14,7 @@ function hasPermission(roles, route) {
 }
 
 /**
- * Filter asynchronous routing tables by recursion
+ * 使用递归算法、根据角色筛选并生成动态路由
  * @param routes asyncRoutes
  * @param roles
  */
@@ -41,16 +41,19 @@ const state = {
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
+    // 存储当前用户的动态路由
     state.addRoutes = routes
+    // 存储当前用户的全部路由
     state.routes = constantRoutes.concat(routes)
   }
 }
 
 const actions = {
+  // 筛选动态路由（先排除super-admin）
   generateRoutes({ commit }, roles) {
     return new Promise((resolve) => {
       let accessedRoutes
-      if (roles.includes('admin')) {
+      if (roles.includes('super-admin')) {
         accessedRoutes = asyncRoutes || []
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
