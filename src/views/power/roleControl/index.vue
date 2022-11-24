@@ -192,6 +192,10 @@ export default {
 
     // 角色分配权限
     async setRoles(scope) {
+      // 在显示弹窗时，显示清除数据(防止出现一闪bug)
+      this.roleIdsList = []
+      // 当然也可以在子组件中加上 v-if="dialogVisible" 属性直接销毁
+
       this.dialogVisible = true
 
       const id = scope.$index
