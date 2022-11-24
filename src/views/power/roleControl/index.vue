@@ -315,7 +315,7 @@ export default {
     },
     // 分配权限弹窗-> 确认按钮
     ConfirmMenuDialog(val) {
-      console.log(val)
+      // console.log(val)
 
       // 发送数据（由于涉及角色菜单关联表，无法模拟）
 

@@ -7,7 +7,6 @@
       node-key="id"
       show-checkbox
       default-expand-all
-      check-strictly
       style="margin: 10px 10% 20px; font-size: 20px"
     />
 

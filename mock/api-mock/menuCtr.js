@@ -101,7 +101,7 @@ module.exports = [
     type: 'post',
     response: (config) => {
       const { id } = config.body
-      console.log(id)
+      // console.log(id)
 
       var data
 
