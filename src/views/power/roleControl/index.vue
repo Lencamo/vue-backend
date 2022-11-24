@@ -85,7 +85,7 @@
       <el-dialog
         title="分配权限"
         :visible.sync="dialogVisible"
-        width="35%"
+        width="25%"
         @close="closeMenuDialog"
       >
         <role-permission-dialog
@@ -136,7 +136,7 @@ export default {
       },
 
       isEdit: false, // 由于弹窗是共用的，提交时，判断是编辑请求还是新增请求（默认为新增请求）
-      roleId: null, // 供编辑请求时使用
+      roleId: null, // 供编辑、分配权限请求时使用
 
       dialogVisible: false, // 分配权限弹窗的隐藏和展示
       menuListAll: [] // 权限菜单列表
@@ -187,12 +187,12 @@ export default {
       this.menuListAll = res.data
     },
 
-    // 设置角色
+    // 角色分配权限
     setRoles(scope) {
       this.dialogVisible = true
 
       const id = scope.$index
-      this.roleId = id // 供api请求使用
+      this.roleId = id // 供获取角色的拥有的菜单权限请求使用
     },
 
     // 编辑角色

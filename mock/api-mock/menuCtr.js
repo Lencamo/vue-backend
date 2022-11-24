@@ -71,11 +71,29 @@ const { menuList } = Mock.mock({
         }
       ]
     }
-  ]
+  ],
+
+  super_adminIds: [1, 11, 12, 13, 2, 21, 22, 3, 31],
+  rootIds: [1, 12, 13],
+  oj_adminIds: [],
+  teacherIds: [1, 11, 2, 21, 22, 3, 31],
+  userIds: [1, 11, 12, 13, 2, 21, 22, 3, 31]
 })
 
 module.exports = [
   // 获取菜单列表
+  {
+    url: '/menu/getMenuAllList',
+    type: 'get',
+    response: (config) => {
+      return {
+        code: 200,
+        msg: '获取列表成功！',
+        data: menuList
+      }
+    }
+  },
+
   {
     url: '/menu/getMenuAllList',
     type: 'get',

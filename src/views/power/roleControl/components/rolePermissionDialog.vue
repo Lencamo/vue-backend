@@ -6,10 +6,11 @@
       show-checkbox
       default-expand-all
       check-strictly
+      style="margin: 10px 10% 20px; font-size: 20px"
     />
 
     <el-row slot="footer" type="flex" justify="center">
-      <el-col :span="6">
+      <el-col style="width: 50%; text-align: center">
         <el-button size="small" @click="cancelButton">取 消</el-button>
         <el-button size="small" type="primary" @click="setRolesBtn">确 定</el-button>
       </el-col>
@@ -34,7 +35,7 @@ export default {
     return {}
   },
   created() {
-    console.log(this.roleId)
+    // console.log(this.roleId)
   },
   methods: {
     // 取消按钮
@@ -49,6 +50,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-tree-node__label {
+  font-size: 17px;
+}
+
+::v-deep .el-tree-node__content {
+  margin: 5px;
+  padding: 10px 0px;
+}
+
 .footer {
   margin-top: 30px;
 }
