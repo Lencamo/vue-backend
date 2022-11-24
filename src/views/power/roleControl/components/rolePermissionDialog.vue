@@ -1,8 +1,10 @@
 <template>
   <div>
     <el-tree
+      ref="tree"
       :data="menuListAll"
       :props="{ label: 'title' }"
+      node-key="id"
       show-checkbox
       default-expand-all
       check-strictly
@@ -26,9 +28,20 @@ export default {
       type: Array,
       default: (_) => []
     },
+    roleIdsList: {
+      type: Array,
+      default: (_) => []
+    },
     roleId: {
       type: [Number, String],
       required: true
+    }
+  },
+
+  // 设置勾选的节点（需要搭配node-key="id"）
+  watch: {
+    roleIdsList() {
+      this.$refs.tree.setCheckedKeys(this.roleIdsList)
     }
   },
   data() {

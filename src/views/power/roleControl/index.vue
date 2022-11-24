@@ -91,6 +91,7 @@
         <role-permission-dialog
           :role-id="roleId"
           :menu-list-all="menuListAll"
+          :role-ids-list="roleIdsList"
           @close="closeMenuDialog"
         ></role-permission-dialog>
       </el-dialog>
@@ -105,7 +106,8 @@ import {
   delRoleAPI,
   getRoleDetailAPI,
   editRoleAPI,
-  getMenuListAllAPI
+  getMenuListAllAPI,
+  getMenuByRoleIdFn
 } from '@/api'
 import rolePermissionDialog from './components/rolePermissionDialog'
 
@@ -139,7 +141,8 @@ export default {
       roleId: null, // 供编辑、分配权限请求时使用
 
       dialogVisible: false, // 分配权限弹窗的隐藏和展示
-      menuListAll: [] // 权限菜单列表
+      menuListAll: [], // 权限菜单列表
+      roleIdsList: [] // 不同角色的权限菜单列表（采用id简写代替）
     }
   },
 
@@ -188,11 +191,15 @@ export default {
     },
 
     // 角色分配权限
-    setRoles(scope) {
+    async setRoles(scope) {
       this.dialogVisible = true
 
       const id = scope.$index
       this.roleId = id // 供获取角色的拥有的菜单权限请求使用
+
+      const { data: res } = await getMenuByRoleIdFn(id)
+      // console.log(res)
+      this.roleIdsList = res.data
     },
 
     // 编辑角色

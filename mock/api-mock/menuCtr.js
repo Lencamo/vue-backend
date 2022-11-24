@@ -1,6 +1,6 @@
 const Mock = require('mockjs')
 
-const { menuList } = Mock.mock({
+const { menuList, super_adminIds, rootIds, oj_adminIds, teacherIds, userIds } = Mock.mock({
   menuList: [
     {
       id: 1,
@@ -73,9 +73,10 @@ const { menuList } = Mock.mock({
     }
   ],
 
+  // 角色和菜单表关联表（不能很好的模拟）
   super_adminIds: [1, 11, 12, 13, 2, 21, 22, 3, 31],
   rootIds: [1, 12, 13],
-  oj_adminIds: [],
+  oj_adminIds: [3, 31],
   teacherIds: [1, 11, 2, 21, 22, 3, 31],
   userIds: [1, 11, 12, 13, 2, 21, 22, 3, 31]
 })
@@ -95,13 +96,32 @@ module.exports = [
   },
 
   {
-    url: '/menu/getMenuAllList',
-    type: 'get',
+    url: '/menu/getMenuByRoleId',
+    type: 'post',
     response: (config) => {
+      const { id } = config.body
+      console.log(id)
+
+      var data
+
+      if (id === 0) {
+        data = super_adminIds
+      } else if (id === 1) {
+        data = rootIds
+      } else if (id === 2) {
+        data = oj_adminIds
+      } else if (id === 3) {
+        data = teacherIds
+      } else if (id === 4) {
+        data = userIds
+      } else {
+        data = []
+      }
+
       return {
         code: 200,
         msg: '获取列表成功！',
-        data: menuList
+        data: data
       }
     }
   }
