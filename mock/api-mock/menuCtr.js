@@ -82,7 +82,7 @@ const { menuList, super_adminIds, rootIds, oj_adminIds, teacherIds, userIds } = 
 })
 
 module.exports = [
-  // 获取菜单列表
+  // 获取菜单列表请求处理
   {
     url: '/menu/getMenuAllList',
     type: 'get',
@@ -95,6 +95,7 @@ module.exports = [
     }
   },
 
+  // 根据角色id获取不同的菜单列表请求处理
   {
     url: '/menu/getMenuByRoleId',
     type: 'post',

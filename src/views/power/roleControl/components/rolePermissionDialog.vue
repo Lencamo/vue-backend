@@ -57,7 +57,11 @@ export default {
     },
 
     // 设置权限按钮
-    setRolesBtn() {}
+    setRolesBtn() {
+      // 获取重新设置的新的权限菜单id数组
+      const new_roleIdsList = this.$refs.tree.getCheckedKeys()
+      this.$emit('confirm', { id: this.roleId, roleIdsList: new_roleIdsList })
+    }
   }
 }
 </script>

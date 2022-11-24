@@ -93,6 +93,7 @@
           :menu-list-all="menuListAll"
           :role-ids-list="roleIdsList"
           @close="closeMenuDialog"
+          @confirm="ConfirmMenuDialog"
         ></role-permission-dialog>
       </el-dialog>
     </div>
@@ -312,8 +313,17 @@ export default {
     nextPageIndex(index) {
       return index + 1 + (this.query.page - 1) * this.query.size
     },
+    // 分配权限弹窗-> 确认按钮
+    ConfirmMenuDialog(val) {
+      console.log(val)
 
-    // 分配权限-> x掉时
+      // 发送数据（由于涉及角色菜单关联表，无法模拟）
+
+      this.dialogVisible = false
+      this.getRoleListAllFn()
+    },
+
+    // 分配权限弹窗-> 取消按钮
     closeMenuDialog() {
       this.dialogVisible = false
     }
