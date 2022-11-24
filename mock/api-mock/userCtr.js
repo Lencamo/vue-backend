@@ -14,6 +14,20 @@ const { userList } = Mock.mock({
 })
 
 module.exports = [
+  // 所有用户列表请求处理
+  {
+    url: '/user/userListAll',
+    type: 'get',
+    response: (config) => {
+      return {
+        code: 200,
+        msg: '获取列表成功！',
+        data: userList,
+        total: userList.length
+      }
+    }
+  },
+
   // 用户列表请求处理
   {
     url: '/user/userList',

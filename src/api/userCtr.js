@@ -1,10 +1,21 @@
 import request from '@/utils/request'
 
 /**
+ * 获取所有用户列表
+ * @returns
+ */
+export function getUserListAllAPI() {
+  return request({
+    url: '/user/userListAll',
+    method: 'get'
+  })
+}
+
+/**
  * 获取用户列表
  * @returns
  */
-export function getUserListAllAPI(params) {
+export function getUserListAPI(params) {
   return request({
     url: '/user/userList',
     method: 'get',

@@ -11,7 +11,7 @@
         <!-- 插槽二  -->
         <template #slot-right>
           <el-button type="danger" size="small">导入excel</el-button>
-          <el-button type="success" size="small">导出excel</el-button>
+          <el-button type="success" size="small" @click="downloadExcel">导出excel</el-button>
           <el-button type="primary" size="small" @click="addUserBtnFn">新增用户</el-button>
         </template>
       </page-tools>
@@ -129,6 +129,7 @@
 <script>
 import {
   getUserListAllAPI,
+  getUserListAPI,
   getRoleListAPI,
   addUserAPI,
   delUserAPI,
@@ -168,7 +169,7 @@ export default {
     }
   },
   created() {
-    this.getUserListAllFn()
+    this.getUserListByQueryFn()
     this.handleRolesList()
   },
 
@@ -176,13 +177,13 @@ export default {
     // 每页显示的条数发生改变时触发
     handleSizeChange(newSize) {
       this.query.size = newSize
-      this.getUserListAllFn()
+      this.getUserListByQueryFn()
     },
 
     // 当前页面发生改变时触发
     handleCurrentChange(newPage) {
       this.query.page = newPage
-      this.getUserListAllFn()
+      this.getUserListByQueryFn()
     },
 
     // 表单内容位置调整
@@ -196,8 +197,8 @@ export default {
     },
 
     // 获取用户列表
-    async getUserListAllFn() {
-      const { data: res } = await getUserListAllAPI(this.query)
+    async getUserListByQueryFn() {
+      const { data: res } = await getUserListAPI(this.query)
       // console.log(res)
 
       if (res.code !== 200) return this.$message.error(res.msg)
@@ -232,7 +233,7 @@ export default {
       if (res.code !== 200) return this.$message.error(res.msg)
       this.$message.success(res.msg)
 
-      this.getUserListAllFn()
+      this.getUserListByQueryFn()
     },
 
     // 2、编辑用户按钮
@@ -291,7 +292,7 @@ export default {
       if (res.code !== 200) return this.$message.error(res.msg)
       this.$message.success(res.msg)
 
-      this.getUserListAllFn()
+      this.getUserListByQueryFn()
     },
 
     // 编辑用户确认后操作
@@ -308,7 +309,7 @@ export default {
       if (res.code !== 200) return this.$message.error(res.msg)
       this.$message.success(res.msg)
 
-      this.getUserListAllFn()
+      this.getUserListByQueryFn()
     },
 
     // 更改角色确然操作
@@ -328,7 +329,7 @@ export default {
 
       this.showDialogNext = false
 
-      this.getUserListAllFn()
+      this.getUserListByQueryFn()
     },
 
     // 关闭用户弹窗时，清空表单👏
@@ -342,6 +343,41 @@ export default {
     // 关闭角色弹窗
     cancleDialog() {
       this.showDialogNext = false
+    },
+
+    // 导出Excel按钮点击事件
+    downloadExcel() {
+      import('@/utils/Export2Excel').then(async (excel) => {
+        const header = ['姓名', '角色', '班级', '学号', '邮箱', 'UUid']
+
+        // 1、list（获取所以用户信息--json数据）
+        const { data: res } = await getUserListAllAPI()
+        // console.log(res)
+        if (res.code !== 200) return this.$message.error(res.msg)
+        const list = res.data
+        // 2、filterVal（待映射数据）
+        const filterVal = ['name', 'role', 'classes', 'studentId', 'email', 'uuid']
+
+        // json数据转换---二维数组
+        const dataArr = list.map((v) =>
+          filterVal.map((j) => {
+            if (j === 'timestamp') {
+              return parseTime(v[j])
+            } else {
+              return v[j]
+            }
+          })
+        )
+        // console.log(dataArr)
+
+        excel.export_json_to_excel({
+          header,
+          data: dataArr,
+          filename: '三体平台-用户名单',
+          autoWidth: true, // 宽度自适应
+          bookType: 'xlsx' // 生成文件类型
+        })
+      })
     }
   }
 }
