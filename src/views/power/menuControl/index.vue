@@ -53,6 +53,7 @@
               >
                 <template slot-scope="scope">
                   <el-button
+                    disabled
                     icon="el-icon-edit-outline"
                     size="mini"
                     plain
@@ -70,89 +71,22 @@
   </div>
 </template>
 <script>
+import { getMenuListAllAPI } from '@/api'
+
 export default {
   created() {
     // 查看路由信息
     // console.log(this.$router.options.routes)
     // console.log(this.$router.options.routes.meta.icon)
     // 路由处理
+    this.getMenuListAllAPIFn()
   },
 
   data() {
     return {
       activeName: 'first', // 头部的tabs
       router: this.$router.options.routes, // 获取路由信息
-      tableData: [
-        {
-          id: 1,
-          title: '权限管理',
-          icon: 'form',
-          roles: ['super-admin', 'root', 'teacher'],
-          path: '/power',
-          children: [
-            {
-              id: 11,
-              title: '用户管理',
-              icon: 'user',
-              roles: ['super-admin', 'teacher'],
-              path: 'userControl'
-            },
-            {
-              id: 12,
-              title: '角色管理',
-              icon: 'nested',
-              roles: ['super-admin', 'root'],
-              path: 'roleControl'
-            },
-            {
-              id: 13,
-              title: '菜单管理',
-              icon: 'example',
-              roles: ['super-admin', 'root'],
-              path: 'menuControl'
-            }
-          ]
-        },
-        {
-          id: 2,
-          title: '教学管理',
-          icon: 'form',
-          roles: ['super-admin', 'teacher'],
-          path: '/teaching',
-          children: [
-            {
-              id: 21,
-              title: '班级管理',
-              icon: 'example',
-              roles: ['super-admin', 'teacher'],
-              path: 'classSide'
-            },
-            {
-              id: 22,
-              title: '教师管理',
-              icon: 'user',
-              roles: ['super-admin', 'teacher'],
-              path: 'teacherSide'
-            }
-          ]
-        },
-        {
-          id: 3,
-          title: '其他模块',
-          icon: 'form',
-          roles: ['super-admin', 'root', 'teacher'],
-          path: '/other',
-          children: [
-            {
-              id: 31,
-              title: '其他模块',
-              icon: 'nested',
-              roles: ['super-admin', 'root', 'teacher'],
-              path: 'other'
-            }
-          ]
-        }
-      ]
+      tableData: []
     }
   },
   methods: {
@@ -164,7 +98,7 @@ export default {
       } else if (row.row.children !== undefined && row.columnIndex >= 0 && row.columnIndex <= 3) {
         return 'background-color: #e8ebed'
       }
-    }
+    },
 
     // 权限标识优化测试
     // text(scope) {
@@ -172,6 +106,10 @@ export default {
     // }
 
     // 对路由表进行处理，生成表格数据
+    async getMenuListAllAPIFn() {
+      const { data: res } = await getMenuListAllAPI()
+      this.tableData = res.data
+    }
   }
 }
 </script>
