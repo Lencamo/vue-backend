@@ -152,13 +152,13 @@ export default {
     // 每页显示的条数发生改变时触发
     handleSizeChange(newSize) {
       this.query.size = newSize
-      this.getRoleListAllAFn()
+      this.getRoleListAllFn()
     },
 
     // 当前页面发生改变时触发
     handleCurrentChange(newPage) {
       this.query.page = newPage
-      this.getRoleListAllAFn()
+      this.getRoleListAllFn()
     },
 
     // 表头调整
@@ -236,7 +236,7 @@ export default {
       if (res.code !== 200) return this.$message.error(res.msg)
       this.$message.success(res.msg)
 
-      this.getRoleListAllAFn()
+      this.getRoleListAllFn()
     },
 
     // 通过新增角色按钮显示弹窗
@@ -272,7 +272,7 @@ export default {
             this.$message.success(res.msg)
           }
 
-          this.getRoleListAllAFn()
+          this.getRoleListAllFn()
           // // 清空数据
           this.roleForm.name = ''
           this.roleForm.description = ''
