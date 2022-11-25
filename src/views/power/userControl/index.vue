@@ -10,7 +10,7 @@
 
         <!-- 插槽二  -->
         <template #slot-right>
-          <el-button type="danger" size="small">导入excel</el-button>
+          <el-button type="danger" size="small" @click="uploadExcelBtnFn">导入excel</el-button>
           <el-button type="success" size="small" @click="downloadExcel">导出excel</el-button>
           <el-button type="primary" size="small" @click="addUserBtnFn">新增用户</el-button>
         </template>
@@ -365,7 +365,7 @@ export default {
       this.showDialogNext = false
     },
 
-    // 导出Excel按钮点击事件
+    // 导出Excel按钮-->点击事件
     downloadExcel() {
       import('@/utils/Export2Excel').then(async (excel) => {
         const header = ['姓名', '角色', '班级', '学号', '邮箱', 'UUid']
@@ -398,6 +398,11 @@ export default {
           bookType: 'xlsx' // 生成文件类型
         })
       })
+    },
+
+    // 导入Excel安装-->点击事件
+    uploadExcelBtnFn() {
+      this.$router.push('/excel')
     }
   }
 }

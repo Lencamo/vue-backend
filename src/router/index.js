@@ -27,6 +27,20 @@ export const constantRoutes = [
   },
 
   {
+    path: '/excel',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '',
+        name: 'excel',
+        component: () => import('@/views/excel/index.vue'),
+        meta: { title: 'excel导入' }
+      }
+    ]
+  },
+
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true

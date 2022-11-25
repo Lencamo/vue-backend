@@ -86,3 +86,15 @@ export function userRoleChangeAPI(data) {
     data
   })
 }
+
+/**
+ * 批量添加用户
+ * @returns
+ */
+export function addUserMoreAPI(data) {
+  return request({
+    url: '/user/addUserMore',
+    method: 'post',
+    data
+  })
+}

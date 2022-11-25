@@ -153,5 +153,24 @@ module.exports = [
         msg: '更改用户角色成功！'
       }
     }
+  },
+
+  // 批量添加用户请求处理
+  {
+    url: '/user/addUserMore',
+    type: 'post',
+    response: (config) => {
+      const addUserDetailArr = config.body
+      console.log('信息')
+
+      userList.push.apply(userList, addUserDetailArr)
+
+      return {
+        code: 200,
+        msg: '批量添加用户成功！',
+        data: userList,
+        total: userList.length
+      }
+    }
   }
 ]
