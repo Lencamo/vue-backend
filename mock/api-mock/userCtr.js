@@ -157,11 +157,11 @@ module.exports = [
 
   // 批量添加用户请求处理
   {
-    url: '/user/addUserMore',
+    url: '/user/addMoreUser',
     type: 'post',
     response: (config) => {
       const addUserDetailArr = config.body
-      console.log('信息')
+      // console.log('测试信息')
 
       userList.push.apply(userList, addUserDetailArr)
 

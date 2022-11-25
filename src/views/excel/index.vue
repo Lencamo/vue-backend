@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { addUserMoreAPI } from '@/api'
+import { addMoreUserAPI } from '@/api'
 
 export default {
   name: 'Excel',
@@ -60,7 +60,7 @@ export default {
       const arr = this.transExcel(results)
       // console.log(arr)
 
-      const { data: res } = await addUserMoreAPI(arr)
+      const { data: res } = await addMoreUserAPI(arr)
       // console.log(res)
 
       if (res.code !== 200) return this.$message.error(res.msg)
