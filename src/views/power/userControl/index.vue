@@ -103,6 +103,7 @@
       :title="isEdit ? '编辑用户' : '新增用户'"
       :visible.sync="showDialog"
       @close="dialogCloseFn"
+      v-if="showDialog"
     >
       <user-dialog
         ref="userDialog"
@@ -162,7 +163,15 @@ export default {
       rolesList: [], // 用于传递给弹窗子组件的数据（不在子组件请求：防止api请求泛滥）
 
       isEdit: false, // 由于弹窗是共用的，提交时，判断是编辑请求还是新增请求（默认为新增请求）
-      userDetail: '', // 用户信息（用于传递给子组件）
+
+      // bug修复（数据类型导致组件报错问题）
+      userDetail: {
+        name: '', // 姓名
+        classes: null, // 班级
+        studentId: null, // 学号
+        email: '', // 邮箱
+        role: '' // 角色
+      }, // 用户信息（用于传递给子组件）
       userId: '', // 用户的索引值（供编辑用户请求调用）
 
       showDialogNext: false // 是否展示角色弹窗
@@ -210,6 +219,16 @@ export default {
     // 添加用户按钮
     addUserBtnFn() {
       this.isEdit = false // 标明弹窗是新增角色状态
+
+      // 先选编辑、后先新增--导致数据回显的bug修复
+      this.userDetail = {
+        name: '', // 姓名
+        classes: null, // 班级
+        studentId: null, // 学号
+        email: '', // 邮箱
+        role: '' // 角色
+      }
+
       this.showDialog = true
     },
 
@@ -251,7 +270,10 @@ export default {
       this.showDialog = true
 
       // 数据回显（注意编辑时解决数据回显问题）
+      // 由于对子组件进行了销毁，不用担心this.userDetail拥有值的时机😭
+      // this.$nextTick(() => {
       this.userDetail = res.data[0]
+      // })
       // console.log(this.userDetail)
     },
 
@@ -335,9 +357,7 @@ export default {
     // 关闭用户弹窗时，清空表单👏
     dialogCloseFn() {
       // 防止新增用户在提交前被清空
-      this.$nextTick(() => {
-        this.$refs.userDialog.$refs.userForm.resetFields()
-      })
+      this.$refs.userDialog.$refs.userForm.resetFields()
     },
 
     // 关闭角色弹窗

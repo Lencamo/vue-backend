@@ -30,18 +30,22 @@ export default {
   name: 'userDialog',
   props: ['rolesList', 'userDetail', 'isEdit'],
   created() {
-    this.$nextTick(() => {
-      this.userFormData = this.userDetail
-    })
+    // this.$nextTick(() => {
+    this.userFormData = this.userDetail
+    // })
+
+    // console.log(this.roles)
+    // console.log('dfasdf', this.userFormData)
+    // console.log(this.is_Edit)
   },
   data() {
     return {
       // 角色列表
       roles: this.rolesList,
       // 当前行的用户信息
-      userDetail: this.userDetail,
+      // userFormData: this.userDetail,
       // 当前弹窗所处的状态
-      isEdit: this.isEdit,
+      is_Edit: this.isEdit,
 
       // 表单数据
       userFormData: {
@@ -80,7 +84,7 @@ export default {
       this.$refs.userForm.validate((valid) => {
         if (valid) {
           // 1、调用新增角色请求
-          if (!this.isEdit) {
+          if (!this.is_Edit) {
             // 先父组件传递表单数据
             this.$emit('userDataAdd', this.userFormData)
             this.$emit('update:isDialog', false)
