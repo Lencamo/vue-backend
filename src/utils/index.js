@@ -122,7 +122,7 @@ export function translateListToTree(list, rootValue) {
   list.forEach((item) => {
     if (item.pid === rootValue) {
       // 当前对象pid符合, 继续递归调用查找它的下属
-      const children = transTree(list, item.id) // 返回item对象下属数组
+      const children = translateListToTree(list, item.id) // 返回item对象下属数组
       if (children.length) {
         item.children = children // 为item添加children属性保存下属数组
       }

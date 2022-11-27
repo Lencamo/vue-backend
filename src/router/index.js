@@ -6,7 +6,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-//动态路由
+// 动态路由
 import power from './modules/power'
 import teaching from './modules/teaching'
 import other from './modules/other'

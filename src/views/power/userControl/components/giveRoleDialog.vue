@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-radio-group @input="checkValue" v-model="radioCheck" class="core-box">
-      <el-radio v-for="item in roles" :key="item" :label="item" class="radio-item"></el-radio>
+    <el-radio-group v-model="radioCheck" class="core-box" @input="checkValue">
+      <el-radio v-for="item in roles" :key="item" :label="item" class="radio-item" />
     </el-radio-group>
 
     <el-row slot="footer" type="flex" justify="center">
       <el-col :span="6">
-        <el-button @click="cancleDialog" size="small">取 消</el-button>
-        <el-button @click="confirmDialog" size="small" type="primary">确 定</el-button>
+        <el-button size="small" @click="cancleDialog">取 消</el-button>
+        <el-button size="small" type="primary" @click="confirmDialog">确 定</el-button>
       </el-col>
     </el-row>
   </div>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'giveRole',
+  name: 'GiveRole',
   props: {
     rolesList: {
       type: Array,

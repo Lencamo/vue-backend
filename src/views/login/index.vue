@@ -56,14 +56,14 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      >登录</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validEmail, validPwd } from '@/utils/validate'
+// import { validEmail, validPwd } from '@/utils/validate'
+import { validEmail } from '@/utils/validate'
 
 export default {
   name: 'Login',
@@ -108,7 +108,7 @@ export default {
   watch: {
     // 监听$route中的query地址
     $route: {
-      handler: function (route) {
+      handler: function(route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -127,7 +127,7 @@ export default {
     },
     handleLogin() {
       // 登录请求
-      this.$refs.loginForm.validate(async (valid) => {
+      this.$refs.loginForm.validate(async(valid) => {
         if (valid) {
           // console.log(this.loginForm)
           try {

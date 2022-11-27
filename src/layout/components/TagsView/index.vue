@@ -31,8 +31,8 @@
 
 <script>
 import ScrollPane from './ScrollPane'
-import path from 'path'
-import router from '@/router'
+// import path from 'path'
+// import router from '@/router'
 export default {
   components: { ScrollPane },
   data() {

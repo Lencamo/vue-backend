@@ -4,7 +4,7 @@
     <el-card>
       <div class="title-box">
         <div class="left-box">
-          <img :src="avatarPic" alt="" />
+          <img :src="avatarPic" alt="">
         </div>
         <div class="right-box">
           <h1 class="roleMsg">{{ roleEn2Zn }}</h1>
@@ -16,18 +16,18 @@
     <!-- 中间核心区域 -->
     <el-row type="flex" justify="space-between">
       <!-- 左侧内容 -->
-      <el-col :span="13" style="padding: 20px 0px; margin-right: 10px">
+      <el-col :span="13" style="margin-right: 10px">
         <!-- 工作日历 -->
         <el-card class="box-card">
           <div slot="header" class="header">
             <span>工作日历</span>
           </div>
-          <el-calendar v-model="value"> </el-calendar>
+          <el-calendar v-model="value" />
         </el-card>
       </el-col>
 
       <!-- 右侧内容 -->
-      <el-col :span="11" style="padding: 20px 0px; margin-left: 10px">
+      <el-col :span="11" style="margin-left: 10px">
         <!-- 帮助连接 -->
         <el-card class="box-card">
           <div class="header">
@@ -59,7 +59,7 @@
 
         <!-- 底部动图区域 -->
         <div class="picShow">
-          <img src="@/assets/common/dashboardPic.gif" alt="" />
+          <img src="@/assets/common/dashboardPic.gif" alt="">
         </div>
       </el-col>
     </el-row>
@@ -73,6 +73,11 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      value: new Date()
+    }
+  },
   computed: {
     // ...mapGetters(['name']),
 
@@ -86,8 +91,8 @@ export default {
     roleEn2Zn() {
       if (this.userInfoAll.role[0] === 'super-admin') {
         return '超级管理员'
-      } else
-        switch (ths.userInfoAll.role[0]) {
+      } else {
+        switch (this.userInfoAll.role[0]) {
           case 'super-admin':
             return '超级管理员'
           case 'root':
@@ -99,11 +104,7 @@ export default {
           default:
             return '普通用户'
         }
-    }
-  },
-  data() {
-    return {
-      value: new Date()
+      }
     }
   }
 }

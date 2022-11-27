@@ -15,7 +15,7 @@
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
               :cell-style="cellStyle"
             >
-              <el-table-column prop="title" label="菜单名称" width="180"></el-table-column>
+              <el-table-column prop="title" label="菜单名称" width="180" />
               <el-table-column prop="icon" label="图标名称" width="130" align="center">
                 <!-- <template>
                   // 图标的动态展示：待解决（icon-class不能进行属性的动态绑定😭--下一个版本查看源码看看）
@@ -34,17 +34,17 @@
                     >{{ scope.row.roles }}</el-tag -->
                   <span v-for="item in scope.row.roles || scope.row.children.roles" :key="item">
                     <el-tag
-                      @click="text(scope)"
                       :effect="scope.row.children ? 'dark' : 'plain'"
                       size="small"
                       :type="scope.row.children ? 'success' : 'info'"
-                      >{{ item }}
+                      @click="text(scope)"
+                    >{{ item }}
                     </el-tag>
-                    <span style="margin: 0px 2px"></span>
+                    <span style="margin: 0px 2px" />
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column prop="path" label="组件路径" align="center"> </el-table-column>
+              <el-table-column prop="path" label="组件路径" align="center" />
               <el-table-column
                 prop="operate"
                 label="操作"
@@ -59,8 +59,7 @@
                     plain
                     type="primary"
                     @click="editRolesFn(scope)"
-                    >编辑</el-button
-                  >
+                  >编辑</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -74,13 +73,6 @@
 import { getMenuListAllAPI } from '@/api'
 
 export default {
-  created() {
-    // 查看路由信息
-    // console.log(this.$router.options.routes)
-    // console.log(this.$router.options.routes.meta.icon)
-    // 路由处理
-    this.getMenuListAllAPIFn()
-  },
 
   data() {
     return {
@@ -88,6 +80,13 @@ export default {
       router: this.$router.options.routes, // 获取路由信息
       tableData: []
     }
+  },
+  created() {
+    // 查看路由信息
+    // console.log(this.$router.options.routes)
+    // console.log(this.$router.options.routes.meta.icon)
+    // 路由处理
+    this.getMenuListAllAPIFn()
   },
   methods: {
     // 特殊位置单个cell背景处理

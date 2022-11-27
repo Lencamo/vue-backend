@@ -8,9 +8,12 @@
           <el-tab-pane label="角色管理" name="first" class="tab-pane">
             <!-- 新增角色按钮 -->
             <el-row style="height: 60px">
-              <el-button @click="addRoleBtnFn" icon="el-icon-plus" size="small" type="primary"
-                >新增角色</el-button
-              >
+              <el-button
+                icon="el-icon-plus"
+                size="small"
+                type="primary"
+                @click="addRoleBtnFn"
+              >新增角色</el-button>
             </el-row>
             <!-- 使用 Table 组件实现用户角色的渲染 -->
             <el-table
@@ -30,12 +33,16 @@
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                  <el-button size="small" type="success" @click="setRoles(scope)"
-                    >分配权限</el-button
-                  >
-                  <el-button size="small" type="primary" @click="editRolesFn(scope)"
-                    >编辑</el-button
-                  >
+                  <el-button
+                    size="small"
+                    type="success"
+                    @click="setRoles(scope)"
+                  >分配权限</el-button>
+                  <el-button
+                    size="small"
+                    type="primary"
+                    @click="editRolesFn(scope)"
+                  >编辑</el-button>
                   <el-button size="small" type="danger" @click="delRolesFn(scope)">删除</el-button>
                 </template>
               </el-table-column>
@@ -94,7 +101,7 @@
           :role-ids-list="roleIdsList"
           @close="closeMenuDialog"
           @confirm="ConfirmMenuDialog"
-        ></role-permission-dialog>
+        />
       </el-dialog>
     </div>
   </div>
@@ -259,7 +266,7 @@ export default {
 
     // 角色弹框-> 确定按钮
     roleSubmit() {
-      this.$refs.roleForm.validate(async (valid) => {
+      this.$refs.roleForm.validate(async(valid) => {
         if (valid) {
           // 1、调用新增角色请求
           if (!this.isEdit) {

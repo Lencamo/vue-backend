@@ -25,7 +25,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <!-- 1、点击区域 -->
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar" />
+          <img :src="avatar" class="user-avatar">
           <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
@@ -90,7 +90,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(async () => {
+        .then(async() => {
           await this.$store.dispatch('user/logOutActions')
 
           // 跳转到登录页面（升级：未遂地址处理 --- 退出时）

@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'rolePermission',
+  name: 'RolePermission',
   props: {
     menuListAll: {
       type: Array,
@@ -37,15 +37,15 @@ export default {
       required: true
     }
   },
+  data() {
+    return {}
+  },
 
   // 设置勾选的节点（需要搭配node-key="id"）
   watch: {
     roleIdsList() {
       this.$refs.tree.setCheckedKeys(this.roleIdsList)
     }
-  },
-  data() {
-    return {}
   },
   created() {
     // console.log(this.roleId)

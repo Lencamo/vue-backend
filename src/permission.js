@@ -12,7 +12,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login', '/404'] // no redirect whitelist
 
 // 1、前置路由守卫
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   // 显示进度条
   NProgress.start()
 

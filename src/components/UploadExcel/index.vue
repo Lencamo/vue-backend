@@ -6,7 +6,7 @@
       type="file"
       accept=".xlsx, .xls"
       @change="handleClick"
-    />
+    >
     <div class="drop" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
       Drop excel file here or
       <el-button

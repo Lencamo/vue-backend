@@ -19,9 +19,9 @@
       <!-- 二、主体内容区域 -->
       <el-card style="margin-top: 10px">
         <el-table
+          ref="usersTable"
           :cell-style="contentClass"
           :header-cell-style="headContentClass"
-          ref="usersTable"
           border
           :data="userList"
           @row-dblclick="handleRowDbClick"
@@ -45,15 +45,14 @@
                   scope.row.role == 'super-admin'
                     ? 'danger'
                     : scope.row.role == 'root'
-                    ? 'warning'
-                    : scope.row.role == 'oj-admin'
-                    ? 'primary'
-                    : scope.row.role == 'teacher'
-                    ? 'success'
-                    : 'info'
+                      ? 'warning'
+                      : scope.row.role == 'oj-admin'
+                        ? 'primary'
+                        : scope.row.role == 'teacher'
+                          ? 'success'
+                          : 'info'
                 "
-                >{{ scope.row.role }}</el-tag
-              >
+              >{{ scope.row.role }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="classes" label="班级" width="180" />
@@ -63,22 +62,25 @@
           <el-table-column fixed="right" label="操作" min-width="260">
             <template slot-scope="scope">
               <el-button
-                @click="editUserBtnFn(scope)"
                 type="warning"
                 icon="el-icon-edit-outline"
                 size="mini"
                 plain
-              ></el-button>
-              <el-button @click="assignRole(scope)" type="primary" size="mini" plain
-                >更改角色</el-button
-              >
+                @click="editUserBtnFn(scope)"
+              />
               <el-button
-                @click="delUserBtnFn(scope)"
+                type="primary"
+                size="mini"
+                plain
+                @click="assignRole(scope)"
+              >更改角色</el-button>
+              <el-button
                 type="danger"
                 icon="el-icon-delete"
                 size="mini"
                 plain
-              ></el-button>
+                @click="delUserBtnFn(scope)"
+              />
             </template>
           </el-table-column>
         </el-table>
@@ -100,29 +102,29 @@
 
     <!-- 用户弹窗 -->
     <el-dialog
+      v-if="showDialog"
       :title="isEdit ? '编辑用户' : '新增用户'"
       :visible.sync="showDialog"
       @close="dialogCloseFn"
-      v-if="showDialog"
     >
       <user-dialog
         ref="userDialog"
         :is-dialog.sync="showDialog"
-        :rolesList="rolesList"
-        :userDetail="userDetail"
-        :isEdit="isEdit"
+        :roles-list="rolesList"
+        :user-detail="userDetail"
+        :is-edit="isEdit"
         @userDataAdd="userDataAddFn"
         @userDataEdit="userDataEditFn"
-      ></user-dialog>
+      />
     </el-dialog>
 
     <!-- 分配角色弹窗 -->
     <el-dialog title="分配权限" :visible.sync="showDialogNext" @close="cancleDialog">
       <give-role-dialog
-        :rolesList="rolesList"
+        :roles-list="rolesList"
         @close="showDialogNext = false"
         @confirm="roleChangeFn"
-      ></give-role-dialog>
+      />
     </el-dialog>
   </div>
 </template>
@@ -367,7 +369,7 @@ export default {
 
     // 导出Excel按钮-->点击事件
     downloadExcel() {
-      import('@/utils/Export2Excel').then(async (excel) => {
+      import('@/utils/Export2Excel').then(async(excel) => {
         const header = ['姓名', '角色', '班级', '学号', '邮箱', 'UUid']
 
         // 1、list（获取所以用户信息--json数据）
@@ -381,11 +383,7 @@ export default {
         // json数据转换---二维数组
         const dataArr = list.map((v) =>
           filterVal.map((j) => {
-            if (j === 'timestamp') {
-              return parseTime(v[j])
-            } else {
-              return v[j]
-            }
+            return v[j]
           })
         )
         // console.log(dataArr)

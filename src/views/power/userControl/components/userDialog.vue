@@ -20,23 +20,29 @@
     </el-form-item>
     <el-form-item>
       <el-button @click="addCancel">取消</el-button>
-      <el-button @click="addSubmit" type="primary">确定</el-button>
+      <el-button type="primary" @click="addSubmit">确定</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
 export default {
-  name: 'userDialog',
-  props: ['rolesList', 'userDetail', 'isEdit'],
-  created() {
-    // this.$nextTick(() => {
-    this.userFormData = this.userDetail
-    // })
-
-    // console.log(this.roles)
-    // console.log('dfasdf', this.userFormData)
-    // console.log(this.is_Edit)
+  name: 'UserDialog',
+  // props: ['rolesList', 'userDetail', 'isEdit'],
+  props: {
+    rolesList: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    userDetail: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
+    isEdit: Boolean
   },
   data() {
     return {
@@ -71,6 +77,15 @@ export default {
         role: { required: true, message: '请选择用户角色', trigger: 'change' }
       }
     }
+  },
+  created() {
+    // this.$nextTick(() => {
+    this.userFormData = this.userDetail
+    // })
+
+    // console.log(this.roles)
+    // console.log('dfasdf', this.userFormData)
+    // console.log(this.is_Edit)
   },
   methods: {
     // 点击取消按钮
