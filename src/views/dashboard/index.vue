@@ -4,7 +4,7 @@
     <el-card>
       <div class="title-box">
         <div class="left-box">
-          <img :src="avatarPic" alt="">
+          <img :src="avatarPic" alt="" />
         </div>
         <div class="right-box">
           <h1 class="roleMsg">{{ roleEn2Zn }}</h1>
@@ -36,7 +36,7 @@
           <div class="sideLink">
             <el-row>
               <el-col :span="8">
-                <a href="#">
+                <a href="http://eaip.com/">
                   <span class="icon iconGuide" />
                   <p>三体平台</p>
                 </a>
@@ -59,7 +59,7 @@
 
         <!-- 底部动图区域 -->
         <div class="picShow">
-          <img src="@/assets/common/dashboardPic.gif" alt="">
+          <img src="@/assets/common/dashboardPic.gif" alt="" />
         </div>
       </el-col>
     </el-row>
