@@ -12,6 +12,8 @@
 
 &emsp;&emsp;其他一些小的功能不做介绍。
 
+- [在线预览](https://3t-backend-7fv9-git-master-lencamo.vercel.app/)
+
 ## Mock.js
 
 &emsp;&emsp;项目的 API 接口全部为 mock 生成，采用的是 [mock-server 方案](https://panjiachen.gitee.io/vue-element-admin-site/zh/guide/essentials/mock-api.html#%E6%96%B0%E6%96%B9%E6%A1%88)。
